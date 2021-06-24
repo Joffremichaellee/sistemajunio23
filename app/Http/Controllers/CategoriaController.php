@@ -46,7 +46,7 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
 
-      /*  $this->validate($request,[
+        $this->validate($request,[
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
@@ -56,22 +56,22 @@ class CategoriaController extends Controller
         $imageName = $image->getClientOriginalName();
         $imageName = time().'_'.$imageName;
 
-        $image->move(public_path('/images'), $imageName);*/
+        $image->move(public_path('/images'), $imageName);
 
         //quitando esto ejecuta y guarda la img
         /*$img = new Categoria;
         $img->image = 'images/'.$imageName;
         $img->save();*/
 
-        $request->validate([
+        /*$request->validate([
             
             'image' => 'image|max:2048',
 
-        ]);
+        ]);*/
 
         //return $request->file('file')->store('public');
 
-        $imagen = $request->image;
+       /* $imagen = $request->image;
 
         if ($imagen != '') {
             $image = '';
@@ -82,7 +82,7 @@ class CategoriaController extends Controller
             $image =  $request->file('image')->store('public');
 
             $url = Storage::url($image);
-        }
+        }*/
 
        
 

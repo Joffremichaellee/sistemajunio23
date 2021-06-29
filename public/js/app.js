@@ -1924,6 +1924,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.listarCategoria();
@@ -1941,7 +1943,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       arrayCategoria: [],
       modal: 0,
       imagenpreview: '',
-      image: ''
+      image: '',
+      imagendefault: '/storage/default.png'
     }, _defineProperty(_ref, "listado", 1), _defineProperty(_ref, "tituloModal", ''), _defineProperty(_ref, "tipoAccion", 0), _defineProperty(_ref, "errorCategoria", 0), _defineProperty(_ref, "errorMostrarMsjCategoria", []), _defineProperty(_ref, "pagination", {
       'total': 0,
       'current_page': 0,
@@ -1957,6 +1960,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: {
+    activarBoton: function activarBoton() {
+      var activadornombre = document.getElementById("nombreinput"); // activadornombre = activadornombre.trim()
+
+      activadornombre.addEventListener("keyup", function () {
+        if (activadornombre.value != "") {
+          document.getElementById("button").disabled = false;
+        } else {
+          document.getElementById("button").disabled = true;
+        }
+      });
+    },
     listarCategoria: function listarCategoria() {
       var me = this;
       var url = '/categoria';
@@ -37846,9 +37860,14 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         staticStyle: { "border-radius": "0" },
-                        attrs: { type: "text", placeholder: "name" },
+                        attrs: {
+                          type: "text",
+                          id: "nombreinput",
+                          placeholder: "name"
+                        },
                         domProps: { value: _vm.nombre },
                         on: {
+                          click: _vm.activarBoton,
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -37920,13 +37939,13 @@ var render = function() {
                             attrs: {
                               width: "230",
                               height: "200",
+                              id: "imagenMiniatura",
                               src: _vm.imagen,
                               alt: "Foto de la Categoria"
                             }
                           })
                         ])
                       : _vm._e(),
-                    _c("br"),
                     _vm._v(" "),
                     _vm._m(1)
                   ]
@@ -37969,7 +37988,7 @@ var staticRenderFns = [
           {
             staticClass: "btn btn-primary",
             staticStyle: { "border-radius": "0" },
-            attrs: { type: "submit" }
+            attrs: { id: "button", type: "submit", disabled: "" }
           },
           [_vm._v("Registrar Venta")]
         )

@@ -22,7 +22,7 @@
                                             
                                             <div  class="form-group">
                                                 <label for="name">Name</label>
-                                                <input type="text" v-model="nombre"  style="border-radius:0;" class="form-control" placeholder="name">
+                                                <input type="text" v-model="nombre" @click="activarBoton" id="nombreinput"   style="border-radius:0;" class="form-control" placeholder="name">
                                             </div>
 
                                             <div class="form-group">
@@ -35,23 +35,25 @@
                                                 <label for="imagen">Imagen(100x100)</label>
 
                                                 <div class="input-group">
+
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input"  @change="obtenerImagen" id="imagen">
                                                         <label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>
                                                     </div>
 
                                                 </div>
+                                                
                                             </div>
 
-                                            <figure v-if="imagen">
-                                                <img width="230" height="200" :src="imagen" alt="Foto de la Categoria">
-                                            </figure><br>
-                                            
+                                            <figure v-if=" imagen ">
+                                                <img width="230" height="200" id="imagenMiniatura" :src="imagen" alt="Foto de la Categoria">
+                                            </figure>
+
                                             <div class="form-group row">
 
                                                 <div class="col-md-12">
                                                     <a type="button"  style="border-radius:0;" href="/categoria" class="btn btn-secondary">Cerrar</a>
-                                                    <button type="submit"  style="border-radius:0;" class="btn btn-primary" >Registrar Venta</button>
+                                                    <button id="button" type="submit"  style="border-radius:0;" class="btn btn-primary" disabled >Registrar Venta</button>
                                                 </div>
 
                                             </div>
@@ -96,6 +98,7 @@
                 modal : 0,
                 imagenpreview : '',
                 image : '',
+                imagendefault : '/storage/default.png',
                 listado:1,
                 tituloModal : '',
                 tipoAccion : 0,
@@ -117,11 +120,30 @@
         computed:{
             imagen(){
                 return this.imagenMiniatura;
-            }
+            },
+            
+
         },
         
         methods : {
-            
+            activarBoton(){
+                
+                let activadornombre = document.getElementById("nombreinput");
+               // activadornombre = activadornombre.trim()
+
+                activadornombre.addEventListener("keyup", () => {
+                    
+                    if(activadornombre.value !=  ""){
+                        document.getElementById("button").disabled = false
+                    }else{
+                        document.getElementById("button").disabled = true
+                    }
+                })
+
+               
+               
+
+            },
             listarCategoria (){
                 let me=this;
                 var url= '/categoria' ;
@@ -143,9 +165,10 @@
             cargarImagen(file){
                 let reader = new FileReader();
 
-                reader.onload = (e) => {
+                reader.onload = (e)  => {
                     this.imagenMiniatura = e.target.result;
                 }
+
 
                 reader.readAsDataURL(file);
             },
@@ -157,7 +180,9 @@
                 let formData = new FormData();
                 formData.append('nombre',this.nombre);
                 formData.append('descripcion',this.descripcion);
+               
                 formData.append('image',this.image);
+            
 
                 axios.post('/categoria/storecategoria',formData)
                 .then(function(responses) {
@@ -348,4 +373,4 @@
     }
 </script>
 
-<style>    
+<!--<style>-->    

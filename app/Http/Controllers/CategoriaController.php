@@ -88,8 +88,8 @@ class CategoriaController extends Controller
 
         return Categoria::Create([
             'nombre' => $request->nombre,
-            /*'image' => 'images/'.$imageName,*/
-            'image' => $url,
+            'image' => 'images/'.$imageName,
+            //'image' => $url,
             'descripcion' => $request->descripcion
             
         ]);

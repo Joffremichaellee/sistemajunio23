@@ -33,12 +33,12 @@
                                             <div class="form-group">
 
                                                 <label for="imagen">Imagen(100x100)</label>
-
+                                                
                                                 <div class="input-group">
 
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input"  @change="obtenerImagen" id="imagen">
-                                                        <label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>
+                                                        <input type="file"  @change="obtenerImagen" id="imagen">
+                                                        <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
                                                     </div>
 
                                                 </div>
@@ -335,22 +335,11 @@
                         switch(accion){
                             case 'registrar':
                             {
-                                this.listado = 0;
+                                this.modal = 1;
+                                this.tituloModal = 'Registrar Categoría';
                                 this.nombre= '';
                                 this.descripcion = '';
                                 this.tipoAccion = 1;
-                                $(function () {
-                                    $('#example1').DataTable( {
-                                        data: response.data,
-                                        
-                                        columns: [
-                                            { data: 'id' },
-                                            { data: 'nombre' },
-                                            { data: 'descripcion' },
-                                            { data: 'image' }
-                                        ]
-                                    } );
-                                });
                                 break;
                             }
                             case 'actualizar':

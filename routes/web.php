@@ -21,6 +21,8 @@ Route::get('/categoria',['as'=>'categoriaindex','uses'=> 'CategoriaController@in
 
 Route::get('/categoria/nuevacategoria',['as'=>'createcategoria','uses'=> 'CategoriaController@create']);
 Route::post('/categoria/storecategoria', 'CategoriaController@store');
+Route::get('/categoria/{id}/edit', 'CategoriaController@edit')->name('categoria.edit');
+Route::put('/categoria/{id}', 'CategoriaController@update')->name('categoria.update');
 
 
 //Route::get('/categorias', 'CategoriaController@index');

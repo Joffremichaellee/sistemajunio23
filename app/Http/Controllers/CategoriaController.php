@@ -46,17 +46,27 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request,[
+        /*$this->validate($request,[
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);*/
+
+        $request->validate([
+            
+            'image' => 'required|image|max:2048',
+
         ]);
 
 
-        $image = request()->file('image');
+        /*$image = request()->file('image');
 
         $imageName = $image->getClientOriginalName();
         $imageName = time().'_'.$imageName;
 
-        $image->move(public_path('/images'), $imageName);
+        $image->move(public_path('/images'), $imageName);*/
+
+        $image =  $request->file('image')->store('public');
+
+        $url = Storage::url($image); 
 
         //quitando esto ejecuta y guarda la img
         /*$img = new Categoria;
@@ -88,8 +98,8 @@ class CategoriaController extends Controller
 
         return Categoria::Create([
             'nombre' => $request->nombre,
-            'image' => 'images/'.$imageName,
-            //'image' => $url,
+            //'image' => 'images/'.$imageName,
+            'image' => $url,
             'descripcion' => $request->descripcion
             
         ]);
@@ -127,7 +137,9 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categoria = Categoria::findOrfail($id);
+
+        return view('vistas.categoriaedit', compact('categoria'));
     }
 
     /**
@@ -139,7 +151,28 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $categoria = Categoria::findOrFail($id);
+
+        if ($request->hasFile('image')) 
+        {
+
+            $categoria->image  = $request->file('image')->store('public');
+
+            
+            
+        }
+
+        
+
+        $categoria->update($request->only('nombre','descripcion'));
+
+        return redirect()->route('categoriaindex');
+
+        //dd($request->file('image'));
+
+        //$categoria->update($request->all());
+
     }
 
     /**

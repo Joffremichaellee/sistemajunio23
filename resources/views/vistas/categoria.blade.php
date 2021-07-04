@@ -34,6 +34,7 @@
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Opciones</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Imagen</th>
@@ -45,9 +46,18 @@
 
                     <tr>
                         <td>{{ $categoria->id }}</td>
+                        <td>
+                            <a href="{{ route('categoria.edit', $categoria->id) }}" type="button" class="btn btn-warning btn-sm">
+                                <i class="fas fa-pencil-alt" style="color:#fff"></i>
+                            </a> &nbsp;
+                            <button type="button" class="btn btn-danger btn-sm">
+                                <i class="fas fa-times-circle" style="color:#fff"></i>
+                            </button> &nbsp;
+                        </td>
                         <td>{{ $categoria->nombre }}</td>
                         <td>{{ $categoria->descripcion }}</td>
                         <td><img src="{{ $categoria->image }}" height="50" width="50"></td>
+                        
                     </tr>
 
                 @endforeach 
@@ -56,6 +66,7 @@
             <tfoot>
             <tr>
                 <th>Id</th>
+                <th>Opciones</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Imagen</th>

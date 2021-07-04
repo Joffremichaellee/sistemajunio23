@@ -2124,24 +2124,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (accion) {
               case 'registrar':
                 {
-                  this.listado = 0;
+                  this.modal = 1;
+                  this.tituloModal = 'Registrar Categoría';
                   this.nombre = '';
                   this.descripcion = '';
                   this.tipoAccion = 1;
-                  $(function () {
-                    $('#example1').DataTable({
-                      data: response.data,
-                      columns: [{
-                        data: 'id'
-                      }, {
-                        data: 'nombre'
-                      }, {
-                        data: 'descripcion'
-                      }, {
-                        data: 'image'
-                      }]
-                    });
-                  });
                   break;
                 }
 
@@ -37915,20 +37902,9 @@ var render = function() {
                       _c("div", { staticClass: "input-group" }, [
                         _c("div", { staticClass: "custom-file" }, [
                           _c("input", {
-                            staticClass: "custom-file-input",
                             attrs: { type: "file", id: "imagen" },
                             on: { change: _vm.obtenerImagen }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
-                            {
-                              staticClass: "custom-file-label",
-                              staticStyle: { "border-radius": "0" },
-                              attrs: { for: "imagen" }
-                            },
-                            [_vm._v("Imagen")]
-                          )
+                          })
                         ])
                       ])
                     ]),

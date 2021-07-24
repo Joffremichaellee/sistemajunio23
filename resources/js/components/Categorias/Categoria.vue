@@ -18,7 +18,7 @@
 
                                     <div class="card-body">
 
-                                        <form @submit.prevent="addProduct" method="POST" enctype = "multipart / form-data">
+                                        <form @submit.prevent="addProduct" method="POST" enctype="multipart/form-data">
                                             
                                             <div  class="form-group">
                                                 <label for="name">Name</label>
@@ -189,20 +189,14 @@
                     me.nombre='';
                     me.descripcion='';
                     me.imagenMiniatura = '';
+                    me.Sweetalertcategoria();
                     window.location = '/categoria';
+                   
 
                     console.log(responses.data);
                 })
             },
-            profileUpload(){
-            let data = new FormData;
-            data.append('image', this.image);
-            axios.post('../userprofile', data)
-            .then(()=>{
-                window.location = '../profile';
-            }).catch(()=>{
-            })
-        },
+            
             
             actualizarCategoria(){
                if (this.validarCategoria()){
@@ -273,44 +267,14 @@
                 }
                 }) 
             },
-            activarCategoria(id){
-               swal({
-                title: 'Esta seguro de activar esta categoría?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-                }).then((result) => {
-                if (result.value) {
-                    let me = this;
-
-                    axios.put('/categoria/activar',{
-                        'id': id
-                    }).then(function (response) {
-                        
-                        swal(
-                        'Activado!',
-                        'El registro ha sido activado con éxito.',
-                        'success'
-                        )
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                    
-                    
-                } else if (
-                    // Read more about handling dismissals
-                    result.dismiss === swal.DismissReason.cancel
-                ) {
-                    
-                }
-                }) 
+            Sweetalertcategoria(){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Se ha guardado exitosamente la categoria',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             },
         /*    validarCategoria(){
                 this.errorCategoria=0;

@@ -80,10 +80,19 @@
 
             </li>
 
-            <li @click="menu=2" class="nav-item">
-              <a href="#" class="nav-link ">
+            <li  class="nav-item">
+
+              <a href="{{ route('ums.index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Productos</p>
+                <p>Unidad de medida</p>
+              </a>
+
+            </li>
+
+            <li @click="menu=2" class="nav-item">
+              <a href="{{route('marcas.index')}}" class="nav-link ">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Marcas</p>
               </a>
             </li>
 

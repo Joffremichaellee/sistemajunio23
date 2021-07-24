@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" defer>
     <link rel="stylesheet" href="/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" defer>
 
+
 </head>
 <body class="hold-transition sidebar-mini">
     
@@ -63,7 +64,8 @@
     <script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/admin/dist/js/adminlte.min.js"></script>
-
+    <!--SweetAlert2-->
+    <script src="/sweetalert/sweetalert2.all.min.js" defer></script>
     <!--Plugins JS de datatable -->
     <script src="/admin/plugins/datatables/jquery.dataTables.min.js" defer></script>
     <script src="/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" defer></script>
@@ -78,7 +80,6 @@
     <script src="/admin/plugins/datatables-buttons/js/buttons.print.min.js" defer></script>
     <script src="/admin/plugins/datatables-buttons/js/buttons.colVis.min.js" defer></script>
     
-
     <!--Añadimos el js generado con webpack, donde se encuentra nuestro componente vuejs-->
     <script src="/js/app.js"></script>
 

@@ -56,7 +56,7 @@ class CategoriaController extends Controller
 
         ]);
 
-
+        
         /*$image = request()->file('image');
 
         $imageName = $image->getClientOriginalName();
@@ -66,7 +66,8 @@ class CategoriaController extends Controller
 
         $image =  $request->file('image')->store('public');
 
-        $url = Storage::url($image); 
+
+        
 
         //quitando esto ejecuta y guarda la img
         /*$img = new Categoria;
@@ -99,7 +100,7 @@ class CategoriaController extends Controller
         return Categoria::Create([
             'nombre' => $request->nombre,
             //'image' => 'images/'.$imageName,
-            'image' => $url,
+            'image' => Storage::url($image),
             'descripcion' => $request->descripcion
             
         ]);
@@ -157,8 +158,9 @@ class CategoriaController extends Controller
         if ($request->hasFile('image')) 
         {
 
-            $categoria->image  = $request->file('image')->store('public');
-
+            $image = $request->file('image')->store('public');
+            $categoria->image  = Storage::url($image);
+           
             
             
         }
@@ -183,6 +185,15 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Categoria::findOrFail($id)->delete();
+
+        $categoria->delete();
+
+        $imagePath = str_replace('storage', 'public', $image->image);
+
+        Storage::delete($image->image); 
+
+        return redirect()->route('categoriaindex');
+
     }
 }

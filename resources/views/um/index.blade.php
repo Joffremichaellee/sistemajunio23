@@ -3,8 +3,8 @@
     @section('contenido')
 
     <div class="card-header" style="padding: 0px 0px 18px; font-family: 'Rubik', sans-serif;">
-        <a href="{{'categoria/nuevacategoria'}}" type="button" class="btn btn-success button-registrar" style="border-radius:0;">
-            <i class="icon-plus"></i>Nueva Categoria
+        <a href="{{ route('ums.create') }}" type="button" class="btn btn-success button-registrar" style="border-radius:0;">
+            <i class="icon-plus"></i>Nueva Unidad de medida
         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <button type="button" class="btn btn-warning button-importar" style="border-radius:0;">
@@ -25,7 +25,7 @@
 
     <div class="card">
         <div class="card-header" style="background-color: #F7F7F7;">
-            <h3 class="card-title" style="font-family: 'Roboto', sans-serif;">Lista de Categoria</h3>
+            <h3 class="card-title" style="font-family: 'Roboto', sans-serif;">Lista de Unidades de medida</h3>
         </div>
               
         <!-- /.card-header -->
@@ -36,24 +36,23 @@
                 <th>Id</th>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Imagen</th>
+                <th>Simbolo</th>
             </tr>
             </thead>
             <tbody>
 
-                @foreach ($categorias as $categoria)
+                @foreach ($ums as $um)
 
                     <tr>
-                        <td>{{ $categoria->id }}</td>
+                        <td>{{ $um->id }}</td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm">
                                 <i class="fas fa-eye" style="color:#fff"></i>
                             </button> &nbsp;
-                            <a href="{{ route('categoria.edit', $categoria->id) }}" type="button" class="btn btn-warning btn-sm">
+                            <a href="{{ route('ums.edit', $um->id) }}" type="button" class="btn btn-warning btn-sm">
                                 <i class="fas fa-pencil-alt" style="color:#fff"></i>
                             </a> &nbsp;
-                            <form method="POST" style="display:inline" action="{{ route('categoria.destroy', $categoria->id) }}">
+                            <form method="POST" style="display:inline" action="{{ route('ums.destroy', $um->id) }}">
                                 
                                 {!! csrf_field() !!}
                                 {!! method_field('DELETE') !!}
@@ -65,9 +64,9 @@
                             </form>
                             
                         </td>
-                        <td>{{ $categoria->nombre }}</td>
-                        <td>{{ $categoria->descripcion }}</td>
-                        <td><img src="{{ $categoria->image }}" height="50" width="50"></td>
+                        <td>{{ $um->nombre }}</td>
+                        <td>{{ $um->simbolo }}</td>
+                       
                         
                     </tr>
 
@@ -79,8 +78,7 @@
                 <th>Id</th>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Imagen</th>
+                <th>Simbolo</th>
             </tr>
             </tfoot>
         </table>

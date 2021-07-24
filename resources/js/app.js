@@ -20,7 +20,10 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('categoria', require('./components/Categoria.vue').default);
+Vue.component('categoria', require('./components/Categorias/Categoria.vue').default);
+Vue.component('create.marca', require('./components/Marcas/create.vue').default);
+Vue.component('edit.marca', require('./components/Marcas/edit.vue').default);
+Vue.component('index.marca', require('./components/Marcas/index.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

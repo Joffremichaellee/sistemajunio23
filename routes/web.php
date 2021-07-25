@@ -48,14 +48,17 @@ Route::resource('ums','UmController');
 //Route::resource('productos','ProductoController'); 
 
 
+Route::resource('productos','ProductoController');
 
 
-//Route::resource('marcas','MarcaController');
-Route::get('/marcas', 'MarcaController@index')->name('marcas.index');
+Route::apiResource('marcas','MarcaController');
+Route::get('/marca', 'MarcaController@marca');
+/*Route::get('/marcas', 'MarcaController@index')->name('marcas.index');
+Route::post('/marcas', 'MarcaController@store')->name('marcas.store');
 Route::get('/marca', 'MarcaController@marca');
 Route::get('/marcas/{marca}/edit', 'MarcaController@edit')->name('marcas.edit');
 Route::put('/marcas/{marca}', 'MarcaController@update')->name('marcas.update');
-Route::delete('/marcas/{marca}', 'MarcaController@destroy')->name('marcas.destroy');
+Route::delete('/marcas/{marca}', 'MarcaController@destroy')->name('marcas.destroy');*/
 /*Route::get('/marcas', 'MarcaController@index')->name('marcas.index');
 Route::get('/marcas/create', 'MarcaController@create')->name('marcas.create');
 Route::post('/marcas', 'MarcaController@store');*/

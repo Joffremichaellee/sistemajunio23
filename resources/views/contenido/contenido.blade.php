@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" defer>
     <link rel="stylesheet" href="/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" defer>
     <link rel="stylesheet" href="/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" defer>
-
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="/admin/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css" defer>
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -79,8 +80,8 @@
     <script src="/admin/plugins/datatables-buttons/js/buttons.html5.min.js" defer></script>
     <script src="/admin/plugins/datatables-buttons/js/buttons.print.min.js" defer></script>
     <script src="/admin/plugins/datatables-buttons/js/buttons.colVis.min.js" defer></script>
-    
-    <!--Añadimos el js generado con webpack, donde se encuentra nuestro componente vuejs-->
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="/admin/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js" defer></script>    <!--Añadimos el js generado con webpack, donde se encuentra nuestro componente vuejs-->
     <script src="/js/app.js"></script>
 
   <script>
@@ -91,6 +92,16 @@
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       
     });
+  </script>
+
+  <script>
+
+    $(function () {
+        //Bootstrap Duallistbox
+        $('.duallistbox').bootstrapDualListbox();
+
+    })
+
   </script>
 
 </body>

@@ -34,23 +34,7 @@ class MarcaController extends Controller
             'marca' => $marca
             
         ];*/
-        
-        
 
-        
-
-       
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('marca.create');
     }
 
     /**
@@ -68,11 +52,11 @@ class MarcaController extends Controller
 
         ]);
       
-        $asd =  $request->file('image')->store('public');
+        $image =  $request->file('image')->store('public');
 
         return Marca::Create([
             'marca' => $request->marca,
-            'logo' => Storage::url($asd),
+            'logo' => Storage::url($image),
             'fabricante' => $request->fabricante
             
         ]);
@@ -80,7 +64,7 @@ class MarcaController extends Controller
        /* $marcas = new Marca();
         $marcas->marca = $request->marca;
         $marcas->fabricante = $request->fabricante;
-        $marcas->image = Storage::url($asd);
+        $marcas->image = Storage::url($image);
         $marcas->save();*/
         
         
@@ -96,19 +80,7 @@ class MarcaController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $marca = Marca::findOrfail($id);
-
-        return view('marca.edit', compact('marca'));
-    }
+   
 
     /**
      * Update the specified resource in storage.

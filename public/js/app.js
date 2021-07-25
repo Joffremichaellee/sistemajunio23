@@ -2811,9 +2811,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      imagenMiniatura: '',
       arrayMarca: [],
+      marca: '',
+      fabricante: '',
+      image: '',
       listado: 1
     };
+  },
+  computed: {
+    imagen: function imagen() {
+      return this.imagenMiniatura;
+    }
   },
   methods: {
     tabla: function tabla() {
@@ -2825,6 +2834,17 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
+    activarBoton: function activarBoton() {
+      var marcas1 = document.getElementById("marca"); // activadornombre = activadornombre.trim()
+
+      marcas1.addEventListener("keyup", function () {
+        if (marcas1.value != "") {
+          document.getElementById("button").disabled = false;
+        } else {
+          document.getElementById("button").disabled = true;
+        }
+      });
+    },
     listarMarca: function listarMarca() {
       var _this = this;
 
@@ -2833,6 +2853,46 @@ __webpack_require__.r(__webpack_exports__);
         me.arrayMarca = res.data;
 
         _this.tabla();
+      });
+    },
+    obtenerImagen: function obtenerImagen(e) {
+      var file = e.target.files[0];
+      this.image = file;
+      this.cargarImagen(file);
+    },
+    cargarImagen: function cargarImagen(file) {
+      var _this2 = this;
+
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        _this2.imagenMiniatura = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    addProduct: function addProduct() {
+      var me = this;
+      var formData = new FormData();
+      formData.append('marca', this.marca);
+      formData.append('fabricante', this.fabricante);
+      formData.append('image', this.image);
+      axios.post('/marcas', formData).then(function (responses) {
+        me.Sweetalertcategoria();
+        me.listado = '1';
+        me.marca = '';
+        me.fabricante = '';
+        me.imagenMiniatura = '';
+        console.log(responses.data);
+      });
+    },
+    Sweetalertcategoria: function Sweetalertcategoria() {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Se ha guardado exitosamente la categoria',
+        showConfirmButton: false,
+        timer: 1500
       });
     },
     mostrarDetalle: function mostrarDetalle() {
@@ -55833,18 +55893,12 @@ var render = function() {
                             attrs: {
                               method: "POST",
                               enctype: "multipart/form-data"
-                            },
-                            on: {
-                              submit: function($event) {
-                                $event.preventDefault()
-                                return _vm.addProduct($event)
-                              }
                             }
                           },
                           [
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { attrs: { for: "name" } }, [
-                                _vm._v("Name")
+                              _c("label", { attrs: { for: "marca" } }, [
+                                _vm._v("marca")
                               ]),
                               _vm._v(" "),
                               _c("input", {
@@ -55852,33 +55906,33 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.nombre,
-                                    expression: "nombre"
+                                    value: _vm.marca,
+                                    expression: "marca"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 staticStyle: { "border-radius": "0" },
                                 attrs: {
                                   type: "text",
-                                  id: "nombreinput",
-                                  placeholder: "name"
+                                  id: "marca",
+                                  placeholder: "marca"
                                 },
-                                domProps: { value: _vm.nombre },
+                                domProps: { value: _vm.marca },
                                 on: {
                                   click: _vm.activarBoton,
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.nombre = $event.target.value
+                                    _vm.marca = $event.target.value
                                   }
                                 }
                               })
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { attrs: { for: "descripcion" } }, [
-                                _vm._v("descripcion")
+                              _c("label", { attrs: { for: "fabricante" } }, [
+                                _vm._v("fabricante")
                               ]),
                               _vm._v(" "),
                               _c("input", {
@@ -55886,23 +55940,23 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.descripcion,
-                                    expression: "descripcion"
+                                    value: _vm.fabricante,
+                                    expression: "fabricante"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 staticStyle: { "border-radius": "0" },
                                 attrs: {
                                   type: "text",
-                                  placeholder: "descripcion"
+                                  placeholder: "fabricante"
                                 },
-                                domProps: { value: _vm.descripcion },
+                                domProps: { value: _vm.fabricante },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.descripcion = $event.target.value
+                                    _vm.fabricante = $event.target.value
                                   }
                                 }
                               })
@@ -55910,13 +55964,17 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group" }, [
                               _c("label", { attrs: { for: "imagen" } }, [
-                                _vm._v("Imagen(100x100)")
+                                _vm._v("imagen(100x100)")
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "input-group" }, [
                                 _c("div", { staticClass: "custom-file" }, [
                                   _c("input", {
-                                    attrs: { type: "file", id: "imagen" },
+                                    attrs: {
+                                      type: "file",
+                                      name: "imagen ",
+                                      id: "imagen"
+                                    },
                                     on: { change: _vm.obtenerImagen }
                                   })
                                 ])
@@ -55940,7 +55998,7 @@ var render = function() {
                             _c("div", { staticClass: "form-group row" }, [
                               _c("div", { staticClass: "col-md-12" }, [
                                 _c(
-                                  "button",
+                                  "a",
                                   {
                                     staticClass: "btn btn-secondary",
                                     staticStyle: { "border-radius": "0" },
@@ -55963,6 +56021,11 @@ var render = function() {
                                       id: "button",
                                       type: "submit",
                                       disabled: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.addProduct()
+                                      }
                                     }
                                   },
                                   [_vm._v("Registrar Venta")]

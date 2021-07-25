@@ -86,26 +86,26 @@
 
                                     <div class="card-body">
 
-                                        <form @submit.prevent="addProduct" method="POST" enctype="multipart/form-data">
+                                        <form method="POST" enctype="multipart/form-data">
                                             
                                             <div  class="form-group">
-                                                <label for="name">Name</label>
-                                                <input type="text" v-model="nombre" @click="activarBoton" id="nombreinput"   style="border-radius:0;" class="form-control" placeholder="name">
+                                                <label for="marca">marca</label>
+                                                <input type="text" v-model="marca" @click="activarBoton" id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="descripcion" >descripcion</label>
-                                                <input type="text" v-model="descripcion" style="border-radius:0;" class="form-control" placeholder="descripcion">
+                                                <label for="fabricante" >fabricante</label>
+                                                <input type="text" v-model="fabricante" style="border-radius:0;" class="form-control" placeholder="fabricante">
                                             </div>
 
                                             <div class="form-group">
 
-                                                <label for="imagen">Imagen(100x100)</label>
+                                                <label for="imagen">imagen(100x100)</label>
                                                 
                                                 <div class="input-group">
 
                                                     <div class="custom-file">
-                                                        <input type="file"  @change="obtenerImagen" id="imagen">
+                                                        <input type="file" name="imagen "  @change="obtenerImagen" id="imagen">
                                                         <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
                                                     </div>
 
@@ -120,8 +120,8 @@
                                             <div class="form-group row">
 
                                                 <div class="col-md-12">
-                                                    <button type="button" style="border-radius:0;" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
-                                                    <button id="button" type="submit"  style="border-radius:0;" class="btn btn-primary" disabled >Registrar Venta</button>
+                                                    <a type="button"  style="border-radius:0;" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</a>
+                                                    <button id="button" type="submit" @click="addProduct()"  style="border-radius:0;" class="btn btn-primary" disabled >Registrar Venta</button>
                                                 </div>
 
                                             </div>
@@ -166,14 +166,23 @@ export default {
     },
     data (){
         return {
-            
+            imagenMiniatura: '',
             arrayMarca : [],
-
+            marca : '',
+            fabricante : '',
+            image : '',
             listado:1
 
 
             
         }
+    },
+    computed:{
+
+        imagen(){
+            return this.imagenMiniatura;
+        },
+
     },
     methods : {
         tabla(){
@@ -184,6 +193,24 @@ export default {
                 
             } );
         },
+        activarBoton(){
+                
+            let marcas1 = document.getElementById("marca");
+            // activadornombre = activadornombre.trim()
+
+            marcas1.addEventListener("keyup", () => {
+                
+                if(marcas1.value !=  ""){
+                    document.getElementById("button").disabled = false
+                }else{
+                    document.getElementById("button").disabled = true
+                }
+            })
+
+            
+            
+
+        },
 
         listarMarca(){
             let me=this;
@@ -191,6 +218,60 @@ export default {
                 me.arrayMarca = res.data;
                 this.tabla();
             })
+        },
+        obtenerImagen(e){
+
+            let file = e.target.files[0];
+            this.image = file;
+            this.cargarImagen(file); 
+
+        },
+        cargarImagen(file){
+            let reader = new FileReader();
+
+            reader.onload = (e)  => {
+                this.imagenMiniatura = e.target.result;
+            }
+
+
+            reader.readAsDataURL(file);
+        },
+        addProduct(){
+
+            let me = this;
+            let formData = new FormData();
+            formData.append('marca',this.marca);
+            formData.append('fabricante',this.fabricante);
+            
+            formData.append('image',this.image);
+        
+
+            axios.post('/marcas' ,formData)
+            .then(function(responses) {
+
+                me.Sweetalertcategoria();
+                me.listado='1';
+                me.marca='';
+                me.fabricante='';
+                me.imagenMiniatura = '';
+                
+                
+
+                console.log(responses.data);
+            })
+        },
+        
+        
+        
+        
+        Sweetalertcategoria(){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se ha guardado exitosamente la categoria',
+                showConfirmButton: false,
+                timer: 1500
+            });
         },
     
         mostrarDetalle(){

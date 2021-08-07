@@ -2804,6 +2804,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
@@ -2812,6 +2876,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       imagenMiniatura: '',
+      datoMarca: {
+        marca: '',
+        fabricante: ''
+      },
+      id: 0,
       arrayMarca: [],
       marca: '',
       fabricante: '',
@@ -2835,10 +2904,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     activarBoton: function activarBoton() {
-      var marcas1 = document.getElementById("marca"); // activadornombre = activadornombre.trim()
+      var marcas = document.getElementById("marca"); // activadornombre = activadornombre.trim()
 
-      marcas1.addEventListener("keyup", function () {
-        if (marcas1.value != "") {
+      marcas.addEventListener("keyup", function () {
+        if (marcas.value != "") {
           document.getElementById("button").disabled = false;
         } else {
           document.getElementById("button").disabled = true;
@@ -2878,15 +2947,52 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('fabricante', this.fabricante);
       formData.append('image', this.image);
       axios.post('/marcas', formData).then(function (responses) {
-        me.Sweetalertcategoria();
-        me.listado = '1';
         me.marca = '';
         me.fabricante = '';
         me.imagenMiniatura = '';
-        console.log(responses.data);
+        me.SweetalertEditarMarca();
+        window.location = '/marcas';
+      })["catch"](function (error) {
+        return window.alert('action failed');
       });
     },
-    Sweetalertcategoria: function Sweetalertcategoria() {
+    replace_image: function replace_image() {
+      var me = this;
+      var opciones = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      var formData = new FormData();
+      formData.append('marca', this.marca);
+      formData.append('fabricante', this.fabricante);
+      formData.append('image', this.image);
+      formData.append('_method', 'patch');
+      axios.post('/marcas/' + this.id, formData, opciones)
+      /*'marca': this.marca,
+      'fabricante': this.fabricante,
+      'logo': this.image,
+      'id': this.id*/
+      .then(function (responses) {
+        me.marca = '';
+        me.fabricante = '';
+        me.imagenMiniatura = '';
+        me.SweetalertEditarMarca();
+        window.location = '/marcas';
+      })["catch"](function (error) {
+        return window.alert('action failed');
+      });
+    },
+    SweetalertCrearMarca: function SweetalertCrearMarca() {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Se ha guardado exitosamente la marca',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    },
+    SweetalertEditarMarca: function SweetalertEditarMarca() {
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -2902,10 +3008,41 @@ __webpack_require__.r(__webpack_exports__);
     ocultarDetalle: function ocultarDetalle() {
       var me = this;
       me.listado = 1;
-      this.tabla();
+      me.tabla();
     },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
+    },
+    abrirFormulario: function abrirFormulario(modelo, accion) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+      switch (modelo) {
+        case "marca":
+          {
+            switch (accion) {
+              case 'registrar':
+                {
+                  this.modal = 1;
+                  this.tituloModal = 'Registrar Categoría';
+                  this.nombre = '';
+                  this.descripcion = '';
+                  this.tipoAccion = 1;
+                  break;
+                }
+
+              case 'actualizar':
+                {
+                  console.log(data);
+                  this.listado = 2;
+                  this.id = data['id'];
+                  this.marca = data['marca'];
+                  this.fabricante = data['fabricante'];
+                  this.imagenMiniatura = data['logo'];
+                  break;
+                }
+            }
+          }
+      }
     }
   }
 });
@@ -55849,8 +55986,30 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-warning btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.abrirFormulario(
+                                        "marca",
+                                        "actualizar",
+                                        marca
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-pencil-alt",
+                                    staticStyle: { color: "#fff" }
+                                  })
+                                ]
+                              ),
                               _vm._v(
-                                "\n                                  asdasdas\n                                  "
+                                "  \n                                      \n                                  "
                               )
                             ]),
                             _vm._v(" "),
@@ -55893,6 +56052,12 @@ var render = function() {
                             attrs: {
                               method: "POST",
                               enctype: "multipart/form-data"
+                            },
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.addProduct()
+                              }
                             }
                           },
                           [
@@ -55972,7 +56137,7 @@ var render = function() {
                                   _c("input", {
                                     attrs: {
                                       type: "file",
-                                      name: "imagen ",
+                                      name: "image",
                                       id: "imagen"
                                     },
                                     on: { change: _vm.obtenerImagen }
@@ -56021,11 +56186,6 @@ var render = function() {
                                       id: "button",
                                       type: "submit",
                                       disabled: ""
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.addProduct()
-                                      }
                                     }
                                   },
                                   [_vm._v("Registrar Venta")]
@@ -56041,7 +56201,166 @@ var render = function() {
               ])
             ]
           : _vm.listado == 2
-          ? [_c("div", { staticClass: "card-body" })]
+          ? [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: " card-primary" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "form",
+                          {
+                            attrs: {
+                              method: "POST",
+                              enctype: "multipart/form-data"
+                            },
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.replace_image()
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "marca" } }, [
+                                _vm._v("marca")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.marca,
+                                    expression: "marca"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: {
+                                  type: "text",
+                                  name: "marca",
+                                  id: "marca",
+                                  placeholder: "marca"
+                                },
+                                domProps: { value: _vm.marca },
+                                on: {
+                                  click: _vm.activarBoton,
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.marca = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "fabricante" } }, [
+                                _vm._v("fabricante")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.fabricante,
+                                    expression: "fabricante"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: {
+                                  type: "text",
+                                  name: "fabricante",
+                                  placeholder: "fabricante"
+                                },
+                                domProps: { value: _vm.fabricante },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.fabricante = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "logo" } }, [
+                                _vm._v("imagen(100x100)")
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "input-group" }, [
+                                _c("div", { staticClass: "custom-file" }, [
+                                  _c("input", {
+                                    attrs: {
+                                      type: "file",
+                                      name: "image",
+                                      id: "logo"
+                                    },
+                                    on: { change: _vm.obtenerImagen }
+                                  })
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm.imagen
+                              ? _c("figure", [
+                                  _c("img", {
+                                    attrs: {
+                                      width: "230",
+                                      height: "200",
+                                      id: "imagenMiniatura",
+                                      src: _vm.imagen,
+                                      alt: "Foto de la Categoria"
+                                    }
+                                  })
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c("div", { staticClass: "col-md-12" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    staticStyle: { "border-radius": "0" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.ocultarDetalle()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Cerrar")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary",
+                                    staticStyle: { "border-radius": "0" },
+                                    attrs: { id: "button", type: "submit" }
+                                  },
+                                  [_vm._v("Editar Marca")]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]
           : _vm._e()
       ],
       2
@@ -56146,6 +56465,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [_vm._v("Nueva Categoria")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Editar Marca")])
     ])
   }
 ]

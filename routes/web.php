@@ -51,8 +51,14 @@ Route::resource('ums','UmController');
 Route::resource('productos','ProductoController');
 
 
-Route::apiResource('marcas','MarcaController');
+//Route::apiResource('marcas','MarcaController')->parameters(['marcas'=>'id']); 
 Route::get('/marca', 'MarcaController@marca');
+
+  Route::get('/marcas','MarcaController@index')->name('marcas.index'); 
+  Route::post('/marcas','MarcaController@store'); 
+ Route::patch('/marcas/{id}','MarcaController@update'); 
+ Route::get('/marca/{id}', 'MarcaController@marca');
+ 
 /*Route::get('/marcas', 'MarcaController@index')->name('marcas.index');
 Route::post('/marcas', 'MarcaController@store')->name('marcas.store');
 Route::get('/marca', 'MarcaController@marca');

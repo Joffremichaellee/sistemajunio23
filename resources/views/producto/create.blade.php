@@ -93,7 +93,7 @@
 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display:flex">
 
                         <div class="card ">     
                         

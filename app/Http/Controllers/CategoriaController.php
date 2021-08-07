@@ -153,6 +153,7 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
 
+        
         $categoria = Categoria::findOrFail($id);
 
         if ($request->hasFile('image')) 

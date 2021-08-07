@@ -44,7 +44,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
-        <li @click="menu=0" class="nav-item menu-open">
+        <li  class="nav-item menu-open">
 
           <ul class="nav nav-treeview">
 
@@ -89,7 +89,7 @@
 
             </li>
 
-            <li @click="menu=2" class="nav-item">
+            <li  class="nav-item">
               <a href="{{route('marcas.index')}}" class="nav-link ">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Marcas</p>
@@ -112,14 +112,14 @@
 
           <ul class="nav nav-treeview subindices">
 
-            <li @click="menu=3" class="nav-item">
+            <li  class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ingresos</p>
               </a>
             </li>
 
-            <li @click="menu=4" class="nav-item">
+            <li  class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Proveedores</p>
@@ -142,14 +142,14 @@
 
           <ul class="nav nav-treeview subindices">
 
-            <li @click="menu=5" class="nav-item">
+            <li  class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ventas</p>
               </a>
             </li>
 
-            <li @click="menu=6" class="nav-item">
+            <li  class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Clientes</p>

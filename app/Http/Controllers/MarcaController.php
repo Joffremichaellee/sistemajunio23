@@ -52,7 +52,7 @@ class MarcaController extends Controller
 
         ]);
       
-        $image =  $request->file('image')->store('public');
+        $image = $request->file('image')->store('public');
 
         return Marca::Create([
             'marca' => $request->marca,
@@ -89,9 +89,28 @@ class MarcaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        //dd($request->file('logo'));
+
+        
+        $marca = Marca::findOrFail($id);
+
+        if ($request->hasFile('image')) 
+        {
+
+            $image = $request->file('image')->store('public');
+            $marca->logo  = Storage::url($image);
+           
+            
+            
+        }
+
+        
+
+        $marca->update($request->only('marca','fabricante'));
+        
+
     }
 
     /**

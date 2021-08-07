@@ -54,8 +54,11 @@
 
                                 <tr v-for="marca in arrayMarca" :key="marca.id">
                                         <td v-text="marca.id"></td>
-                                        <td>
-                                        asdasdas
+                                        <td> 
+                                            <button type="button" @click="abrirFormulario('marca','actualizar',marca)" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-pencil-alt" style="color:#fff"></i>
+                                            </button> &nbsp;
+                                            
                                         </td>
                                         <td v-text="marca.marca"></td>
                                         <td v-text="marca.fabricante"></td>
@@ -72,7 +75,7 @@
                 <template v-else-if="listado==0">
 
 
-                        <div class="card">     
+                    <div class="card">     
                    
                         <div class=" card-primary">
 
@@ -86,7 +89,7 @@
 
                                     <div class="card-body">
 
-                                        <form method="POST" enctype="multipart/form-data">
+                                        <form  @submit.prevent="addProduct()" method="POST" enctype="multipart/form-data">
                                             
                                             <div  class="form-group">
                                                 <label for="marca">marca</label>
@@ -105,7 +108,7 @@
                                                 <div class="input-group">
 
                                                     <div class="custom-file">
-                                                        <input type="file" name="imagen "  @change="obtenerImagen" id="imagen">
+                                                        <input type="file" name="image"  @change="obtenerImagen" id="imagen">
                                                         <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
                                                     </div>
 
@@ -121,7 +124,7 @@
 
                                                 <div class="col-md-12">
                                                     <a type="button"  style="border-radius:0;" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</a>
-                                                    <button id="button" type="submit" @click="addProduct()"  style="border-radius:0;" class="btn btn-primary" disabled >Registrar Venta</button>
+                                                    <button id="button" type="submit"  style="border-radius:0;" class="btn btn-primary" disabled >Registrar Venta</button>
                                                 </div>
 
                                             </div>
@@ -136,18 +139,79 @@
                         
                         </div>
                     
-
-               
-
-                        
                     </div>
+                    
                 </template>
                 <!-- Fin Detalle-->
                 <!-- Ver ingreso -->
                 <template v-else-if="listado==2">
-                <div class="card-body">
 
-                </div>
+                        <div class="card">     
+                   
+                            <div class=" card-primary">
+
+                                <div class="card-header">
+                                    <h3 class="card-title">Editar Marca</h3>
+                                </div>
+
+                                <div class="row">
+                    
+                                    <div class="col-md-6">
+
+                                        <div class="card-body">
+
+                                            <form @submit.prevent="replace_image()" method="POST" enctype="multipart/form-data">
+                                                 
+                                                <div  class="form-group">
+                                                    <label for="marca">marca</label>
+                                                    <input type="text" name="marca" v-model="marca" @click="activarBoton" id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="fabricante" >fabricante</label>
+                                                    <input type="text" name="fabricante" v-model="fabricante" style="border-radius:0;" class="form-control" placeholder="fabricante">
+                                                </div>
+
+                                                <div class="form-group">
+
+                                                    <label for="logo">imagen(100x100)</label>
+                                                    
+                                                    <div class="input-group">
+
+                                                        <div class="custom-file">
+                                                            <input type="file" name="image"  @change="obtenerImagen" id="logo">
+                                                            <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <figure v-if=" imagen ">
+                                                    <img width="230"  height="200" id="imagenMiniatura" :src="imagen" alt="Foto de la Categoria">
+                                                </figure>
+
+                                                <div class="form-group row">
+
+                                                    <div class="col-md-12">
+                                                        <a type="button"  style="border-radius:0;" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</a>
+                                                        <button id="button" type="submit"   style="border-radius:0;" class="btn btn-primary" >Editar Marca</button>
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            
+                            </div>
+                    
+                        </div>
+
                 </template>
                 <!-- fin ver ingreso -->
            
@@ -167,6 +231,8 @@ export default {
     data (){
         return {
             imagenMiniatura: '',
+            datoMarca: {marca:'', fabricante:'',},
+            id: 0,
             arrayMarca : [],
             marca : '',
             fabricante : '',
@@ -195,12 +261,12 @@ export default {
         },
         activarBoton(){
                 
-            let marcas1 = document.getElementById("marca");
+            let marcas = document.getElementById("marca");
             // activadornombre = activadornombre.trim()
 
-            marcas1.addEventListener("keyup", () => {
+            marcas.addEventListener("keyup", () => {
                 
-                if(marcas1.value !=  ""){
+                if(marcas.value !=  ""){
                     document.getElementById("button").disabled = false
                 }else{
                     document.getElementById("button").disabled = true
@@ -242,29 +308,68 @@ export default {
             let formData = new FormData();
             formData.append('marca',this.marca);
             formData.append('fabricante',this.fabricante);
-            
             formData.append('image',this.image);
         
 
-            axios.post('/marcas' ,formData)
+            axios.post('/marcas',formData)
             .then(function(responses) {
-
-                me.Sweetalertcategoria();
-                me.listado='1';
                 me.marca='';
                 me.fabricante='';
                 me.imagenMiniatura = '';
-                
+                me.SweetalertEditarMarca();
+                window.location = '/marcas';        
+            })
+            .catch(error => window.alert('action failed'));
+        },
+        
+
+        replace_image(){
+
+                    let me = this;
+
+                    let opciones = {
+                        headers: {'Content-Type': 'multipart/form-data'}
+                    };
+
+                    let formData = new FormData();
+
+                    formData.append('marca',this.marca);
+                    formData.append('fabricante',this.fabricante);
+                    formData.append('image',this.image);
+                    formData.append('_method', 'patch');
                 
 
-                console.log(responses.data);
-            })
+                    axios.post('/marcas/'+this.id,formData,opciones)
+
+                        /*'marca': this.marca,
+                        'fabricante': this.fabricante,
+                        'logo': this.image,
+                        'id': this.id*/
+                    
+                    .then(function(responses) {
+                        me.marca='';
+                        me.fabricante='';
+                        me.imagenMiniatura = '';
+                        me.SweetalertEditarMarca();
+                        window.location = '/marcas';        
+                    })
+                    .catch(error => window.alert('action failed'));
+             
+            
         },
         
         
-        
-        
-        Sweetalertcategoria(){
+        SweetalertCrearMarca(){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se ha guardado exitosamente la marca',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        },
+
+        SweetalertEditarMarca(){
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -282,11 +387,39 @@ export default {
         ocultarDetalle(){
             let me=this;
             me.listado=1;
-             this.tabla();
+             me.tabla();
         },
         cerrarModal(){
             this.modal=0;
         }, 
+        abrirFormulario(modelo, accion, data = []){
+            switch(modelo){
+                case "marca":
+                {
+                    switch(accion){
+                        case 'registrar':
+                        {
+                            this.modal = 1;
+                            this.tituloModal = 'Registrar Categoría';
+                            this.nombre= '';
+                            this.descripcion = '';
+                            this.tipoAccion = 1;
+                            break;
+                        }
+                        case 'actualizar':
+                        {
+                            console.log(data);
+                            this.listado=2;
+                            this.id=data['id'];
+                            this.marca = data['marca'];
+                            this.fabricante= data['fabricante'];
+                            this.imagenMiniatura= data['logo'];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         
     },
 

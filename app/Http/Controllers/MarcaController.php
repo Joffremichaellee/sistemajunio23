@@ -121,6 +121,9 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Marca::findOrFail($id)->delete();
+
+
+
     }
 }

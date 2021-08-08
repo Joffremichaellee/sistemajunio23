@@ -2868,6 +2868,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
@@ -2903,17 +2906,22 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    activarBoton: function activarBoton() {
-      var marcas = document.getElementById("marca"); // activadornombre = activadornombre.trim()
 
-      marcas.addEventListener("keyup", function () {
-        if (marcas.value != "") {
-          document.getElementById("button").disabled = false;
-        } else {
-          document.getElementById("button").disabled = true;
-        }
-      });
-    },
+    /*activarBoton(){
+            
+        let marcas = document.getElementById("marca");
+        // activadornombre = activadornombre.trim()
+          marcas.addEventListener("keyup", () => {
+            
+            if(marcas.value !=  ""){
+                document.getElementById("button").disabled = false
+            }else{
+                document.getElementById("button").disabled = true
+            }
+        })
+          
+        
+      },*/
     listarMarca: function listarMarca() {
       var _this = this;
 
@@ -2942,11 +2950,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     addProduct: function addProduct() {
       var me = this;
+      var opciones = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
       var formData = new FormData();
       formData.append('marca', this.marca);
       formData.append('fabricante', this.fabricante);
       formData.append('image', this.image);
-      axios.post('/marcas', formData).then(function (responses) {
+      axios.post('/marcas', formData, opciones).then(function (responses) {
         me.marca = '';
         me.fabricante = '';
         me.imagenMiniatura = '';
@@ -2954,6 +2967,41 @@ __webpack_require__.r(__webpack_exports__);
         window.location = '/marcas';
       })["catch"](function (error) {
         return window.alert('action failed');
+      });
+    },
+    EliminarMarca: function EliminarMarca() {
+      var _this3 = this;
+
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var me = _this3;
+          axios["delete"]('/marcas/' + _this3.id).then(function (response) {
+            console.log(response);
+            window.location = '/marcas';
+            swalWithBootstrapButtons.fire('Deleted!', 'Your file has been deleted.', 'success');
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+        }
       });
     },
     replace_image: function replace_image() {
@@ -2980,7 +3028,12 @@ __webpack_require__.r(__webpack_exports__);
         me.SweetalertEditarMarca();
         window.location = '/marcas';
       })["catch"](function (error) {
-        return window.alert('action failed');
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No puede ir vacio los campos' //footer: '<a href="">Why do I have this issue?</a>'
+
+        });
       });
     },
     SweetalertCrearMarca: function SweetalertCrearMarca() {
@@ -3007,6 +3060,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     ocultarDetalle: function ocultarDetalle() {
       var me = this;
+      me.marca = '';
+      me.fabricante = '';
+      me.imagenMiniatura = '';
       me.listado = 1;
       me.tabla();
     },
@@ -3038,6 +3094,14 @@ __webpack_require__.r(__webpack_exports__);
                   this.marca = data['marca'];
                   this.fabricante = data['fabricante'];
                   this.imagenMiniatura = data['logo'];
+                  break;
+                }
+
+              case 'eliminar':
+                {
+                  console.log(data);
+                  this.EliminarMarca();
+                  this.id = data['id'];
                   break;
                 }
             }
@@ -56009,7 +56073,29 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(
-                                "  \n                                      \n                                  "
+                                "  \n                                      "
+                              ),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.abrirFormulario(
+                                        "marca",
+                                        "eliminar",
+                                        marca
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fas fa-trash-alt",
+                                    staticStyle: { color: "#fff" }
+                                  })
+                                ]
                               )
                             ]),
                             _vm._v(" "),
@@ -56084,7 +56170,6 @@ var render = function() {
                                 },
                                 domProps: { value: _vm.marca },
                                 on: {
-                                  click: _vm.activarBoton,
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
@@ -56182,11 +56267,7 @@ var render = function() {
                                   {
                                     staticClass: "btn btn-primary",
                                     staticStyle: { "border-radius": "0" },
-                                    attrs: {
-                                      id: "button",
-                                      type: "submit",
-                                      disabled: ""
-                                    }
+                                    attrs: { id: "button", type: "submit" }
                                   },
                                   [_vm._v("Registrar Venta")]
                                 )
@@ -56248,7 +56329,6 @@ var render = function() {
                                 },
                                 domProps: { value: _vm.marca },
                                 on: {
-                                  click: _vm.activarBoton,
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return

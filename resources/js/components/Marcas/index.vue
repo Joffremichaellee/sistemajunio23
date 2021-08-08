@@ -58,6 +58,9 @@
                                             <button type="button" @click="abrirFormulario('marca','actualizar',marca)" class="btn btn-warning btn-sm">
                                                 <i class="fas fa-pencil-alt" style="color:#fff"></i>
                                             </button> &nbsp;
+                                            <button type="button" @click="abrirFormulario('marca','eliminar',marca)" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash-alt" style="color:#fff"></i>
+                                            </button>
                                             
                                         </td>
                                         <td v-text="marca.marca"></td>
@@ -93,7 +96,7 @@
                                             
                                             <div  class="form-group">
                                                 <label for="marca">marca</label>
-                                                <input type="text" v-model="marca" @click="activarBoton" id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
+                                                <input type="text" v-model="marca"  id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
                                             </div>
 
                                             <div class="form-group">
@@ -124,7 +127,7 @@
 
                                                 <div class="col-md-12">
                                                     <a type="button"  style="border-radius:0;" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</a>
-                                                    <button id="button" type="submit"  style="border-radius:0;" class="btn btn-primary" disabled >Registrar Venta</button>
+                                                    <button id="button" type="submit"  style="border-radius:0;" class="btn btn-primary"  >Registrar Venta</button>
                                                 </div>
 
                                             </div>
@@ -164,7 +167,7 @@
                                                  
                                                 <div  class="form-group">
                                                     <label for="marca">marca</label>
-                                                    <input type="text" name="marca" v-model="marca" @click="activarBoton" id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
+                                                    <input type="text" name="marca" v-model="marca"  id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
                                                 </div>
 
                                                 <div class="form-group">
@@ -259,7 +262,7 @@ export default {
                 
             } );
         },
-        activarBoton(){
+        /*activarBoton(){
                 
             let marcas = document.getElementById("marca");
             // activadornombre = activadornombre.trim()
@@ -276,7 +279,7 @@ export default {
             
             
 
-        },
+        },*/
 
         listarMarca(){
             let me=this;
@@ -305,13 +308,18 @@ export default {
         addProduct(){
 
             let me = this;
+
+            let opciones = {
+                headers: {'Content-Type': 'multipart/form-data'}
+            };
+
             let formData = new FormData();
             formData.append('marca',this.marca);
             formData.append('fabricante',this.fabricante);
             formData.append('image',this.image);
         
 
-            axios.post('/marcas',formData)
+            axios.post('/marcas',formData,opciones)
             .then(function(responses) {
                 me.marca='';
                 me.fabricante='';
@@ -322,6 +330,62 @@ export default {
             .catch(error => window.alert('action failed'));
         },
         
+        EliminarMarca(){
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                    let me = this;
+
+
+
+                    axios.delete('/marcas/'+this.id)
+                    .then(function (response) {
+                        console.log(response);
+                        window.location = '/marcas';
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+
+                    
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                    )
+                }
+            })
+
+            
+
+        },
 
         replace_image(){
 
@@ -353,7 +417,12 @@ export default {
                         me.SweetalertEditarMarca();
                         window.location = '/marcas';        
                     })
-                    .catch(error => window.alert('action failed'));
+                    .catch(error => Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No puede ir vacio los campos'
+                        //footer: '<a href="">Why do I have this issue?</a>'
+                    }));
              
             
         },
@@ -386,8 +455,11 @@ export default {
         },
         ocultarDetalle(){
             let me=this;
+            me.marca='';
+            me.fabricante='';
+            me.imagenMiniatura = '';
             me.listado=1;
-             me.tabla();
+            me.tabla();
         },
         cerrarModal(){
             this.modal=0;
@@ -414,6 +486,13 @@ export default {
                             this.marca = data['marca'];
                             this.fabricante= data['fabricante'];
                             this.imagenMiniatura= data['logo'];
+                            break;
+                        }
+                        case 'eliminar':
+                        {
+                            console.log(data);
+                            this.EliminarMarca();
+                            this.id=data['id'];
                             break;
                         }
                     }

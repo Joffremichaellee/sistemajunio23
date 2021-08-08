@@ -85,13 +85,21 @@
     <script src="/js/app.js"></script>
 
   <script>
-    $(function () {
+    $(document).ready( function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": true, "autoWidth": false
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      
+    });
+    
+                
+    /**$(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       
-    });
+    }); */
   </script>
 
   <script>

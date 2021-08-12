@@ -8,7 +8,7 @@
                     <!-- Ejemplo de tabla Listado -->
                         <div class="card-header" style="padding: 0px 0px 18px; font-family: 'Rubik', sans-serif;">
                             <button type="button" @click="mostrarDetalle()" class="btn btn-success button-registrar" style="border-radius:0;">
-                                <i class="fa fa-plus" aria-hidden="true"></i>Nueva Marca
+                                <i class="fa fa-plus" aria-hidden="true"></i>Nuevo Grupo Atributo
                             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                             <!--<button type="button" class="btn btn-warning button-importar" style="border-radius:0;">
@@ -27,18 +27,18 @@
             
                         <div class="card">
                             <div class="card-header" style="background-color: #F7F7F7;">
-                                <h3 class="card-title" style="font-family: 'Roboto', sans-serif;">Lista de Marcas</h3>
+                                <h3 class="card-title" style="font-family: 'Roboto', sans-serif;">Lista de Grupo Atributos</h3>
                             </div>
                         
                             <div class="card-body">
-                                <table id="myTable" class="table table-bordered table-striped table-hover  " >
+                                <table id="myTable" class="table table-striped table-hover  " >
                                     <thead>
-                                        <tr >
-                                            
-                                            <th>Logos</th>                 
-                                            <th>Marcas</th>
-                                            <th>Fabricantes</th>
-                                            <th >Opciones</th>
+                                        <tr style="font-family: 'Georama', sans-serif;">
+                                            <th>id</th> 
+                                            <th>grupo</th>                 
+                                            <th>orden</th>
+                                            <th>estado</th>
+                                            <th>Opciones</th>
                                             
                                         </tr>
                                     </thead>
@@ -53,18 +53,29 @@
                                                 <td></td>
                                             </tr>-->
 
-                                    <tr v-for="marca in arrayMarca" :key="marca.id">
-                                            
-                                            <td class="circular-image" ><img :src="marca.logo"  height="50px"></td>
-                                            <td v-text="marca.marca"></td>
-                                            <td v-text="marca.fabricante"></td>
-                                            <td class="widthOpciones"> 
+                                    <tr style="cursor: pointer;" @click="abrirFormulario('grupoatributo','atributo',grupoatributo)" v-for="grupoatributo in arrayGrupoAtributo" :key="grupoatributo.id">
+                                            <td class="idGrupoAtributo" v-text="grupoatributo.id"></td>
+                                            <td class="grupoGrupoAtributo" v-text="grupoatributo.grupo"></td>
+                                            <td class="ordenGrupoAtributo" v-text="grupoatributo.orden"></td>
+                                            <td class="estadoGrupoAtributo">
+                                                <div v-if="grupoatributo.estado">
+                                                    <span class="badge badge-success">Activo</span>
+                                                </div>
+                                                <div v-else>
+                                                    <span class="badge badge-danger">Desactivado</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td class="widthOpcionesGrupoAtributo" style="padding: 10px 0px 0px;"> 
                                             &nbsp;
-                                                <button type="button" @click="abrirFormulario('marca','actualizar',marca)" class="btn btn-warning btn-sm">
+                                                <button type="button" @click="abrirFormulario('grupoatributo','actualizar',grupoatributo)" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-pencil-alt" style="color:#fff"></i>
-                                                </button> &nbsp;
-                                                <button type="button" @click="abrirFormulario('marca','eliminar',marca)" class="btn btn-danger btn-sm">
+                                                </button>&nbsp;
+                                                <button type="button" @click="abrirFormulario('grupoatributo','eliminar',grupoatributo)" class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash-alt" style="color:#fff"></i>
+                                                </button>&nbsp;
+                                                <button type="button" @click="abrirFormulario('grupoatributo','atributo',grupoatributo)" class="btn btn-primary btn-sm">
+                                                    <i  class="fas fa-search-plus" style="color:#fff"></i>
                                                 </button>
                                                 
                                             </td>
@@ -73,6 +84,8 @@
                                         </tr>
                                     
                                     </tbody>
+                                   
+                                    
                                 </table>
                             </div>
                         </div>
@@ -87,7 +100,7 @@
                             <div class=" card-primary">
 
                                 <div class="card-header">
-                                    <h3 class="card-title">Nueva Categoria</h3>
+                                    <h3 class="card-title">Nuevo Grupo Atributo</h3>
                                 </div>
 
                                 <div class="row">
@@ -96,36 +109,19 @@
 
                                         <div class="card-body">
 
-                                            <form  @submit.prevent="addProduct()" method="POST" enctype="multipart/form-data">
+                                            <form  @submit.prevent="AñadirGrupoAtributo()" method="POST" enctype="multipart/form-data">
                                                 
                                                 <div  class="form-group">
-                                                    <label for="marca">marca</label>
-                                                    <input type="text" v-model="marca"  id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
+                                                    <label for="grupo">grupo</label>
+                                                    <input type="text" v-model="grupo" id="grupo"  style="border-radius:0;" class="form-control" placeholder="grupo">
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="fabricante" >fabricante</label>
-                                                    <input type="text" v-model="fabricante" style="border-radius:0;" class="form-control" placeholder="fabricante">
+                                                    <label for="orden" >orden</label>
+                                                    <input type="number" v-model="orden" style="border-radius:0;" class="form-control" placeholder="orden">
                                                 </div>
 
-                                                <div class="form-group">
-
-                                                    <label for="imagen">imagen(100x100)</label>
-                                                    
-                                                    <div class="input-group">
-
-                                                        <div class="custom-file">
-                                                            <input type="file" name="image"  @change="obtenerImagen" id="imagen">
-                                                            <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
-                                                        </div>
-
-                                                    </div>
-                                                    
-                                                </div>
-
-                                                <figure v-if=" imagen ">
-                                                    <img width="230" height="200" id="imagenMiniatura" :src="imagen" alt="Foto de la Categoria">
-                                                </figure>
+                                                
 
                                                 <div class="form-group row">
 
@@ -158,7 +154,7 @@
                                 <div class=" card-primary">
 
                                     <div class="card-header">
-                                        <h3 class="card-title">Editar Marca</h3>
+                                        <h3 class="card-title">Editar Grupo Atributo</h3>
                                     </div>
 
                                     <div class="row">
@@ -167,36 +163,17 @@
 
                                             <div class="card-body">
 
-                                                <form @submit.prevent="replace_image()" method="POST" enctype="multipart/form-data">
+                                                <form @submit.prevent="EditarGrupoAtributo()" method="POST" enctype="multipart/form-data">
                                                     
                                                     <div  class="form-group">
-                                                        <label for="marca">marca</label>
-                                                        <input type="text" name="marca" v-model="marca"  id="marca"   style="border-radius:0;" class="form-control" placeholder="marca">
+                                                        <label for="grupo">grupo</label>
+                                                        <input type="text" v-model="grupo" id="grupo"  style="border-radius:0;" class="form-control" placeholder="grupo">
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="fabricante" >fabricante</label>
-                                                        <input type="text" name="fabricante" v-model="fabricante" style="border-radius:0;" class="form-control" placeholder="fabricante">
+                                                        <label for="orden" >orden</label>
+                                                        <input type="number" v-model="orden" style="border-radius:0;" class="form-control" placeholder="orden">
                                                     </div>
-
-                                                    <div class="form-group">
-
-                                                        <label for="logo">imagen(100x100)</label>
-                                                        
-                                                        <div class="input-group">
-
-                                                            <div class="custom-file">
-                                                                <input type="file" name="image"  @change="obtenerImagen" id="logo">
-                                                                <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
-                                                            </div>
-
-                                                        </div>
-                                                        
-                                                    </div>
-
-                                                    <figure v-if=" imagen ">
-                                                        <img width="230"  height="200" id="imagenMiniatura" :src="imagen" alt="Foto de la Categoria">
-                                                    </figure>
 
                                                     <div class="form-group row">
 
@@ -233,17 +210,14 @@
     import datatable from 'datatables.net-bs4'
     export default {
         mounted() {
-                this.listarMarca();
+                this.listarGrupoMarca();
         },
         data (){
             return {
-                imagenMiniatura: '',
-                datoMarca: {marca:'', fabricante:'',},
                 id: 0,
-                arrayMarca : [],
-                marca : '',
-                fabricante : '',
-                image : '',
+                arrayGrupoAtributo : [],
+                grupo : '',
+                orden : '',
                 listado:1
 
 
@@ -267,70 +241,29 @@
                     
                 } );
             },
-            /*activarBoton(){
-                    
-                let marcas = document.getElementById("marca");
-                // activadornombre = activadornombre.trim()
 
-                marcas.addEventListener("keyup", () => {
-                    
-                    if(marcas.value !=  ""){
-                        document.getElementById("button").disabled = false
-                    }else{
-                        document.getElementById("button").disabled = true
-                    }
-                })
-
-                
-                
-
-            },*/
-
-            listarMarca(){
+            listarGrupoMarca(){
                 let me=this;
-                axios.get('/marca').then(res=>{
-                    me.arrayMarca = res.data;
+                axios.get('/grupoatributo').then(res=>{
+                    me.arrayGrupoAtributo = res.data;
                     this.tabla();
                 })
             },
-            obtenerImagen(e){
-
-                let file = e.target.files[0];
-                this.image = file;
-                this.cargarImagen(file); 
-
-            },
-            cargarImagen(file){
-                let reader = new FileReader();
-
-                reader.onload = (e)  => {
-                    this.imagenMiniatura = e.target.result;
-                }
-
-
-                reader.readAsDataURL(file);
-            },
-            addProduct(){
+            AñadirGrupoAtributo(){
 
                 let me = this;
 
-                let opciones = {
-                    headers: {'Content-Type': 'multipart/form-data'}
-                };
+                axios.post('/grupoatributos',{
 
-                let formData = new FormData();
-                formData.append('marca',this.marca);
-                formData.append('fabricante',this.fabricante);
-                formData.append('image',this.image);
-            
+                    'grupo': this.grupo,
+                    'orden': this.orden
 
-                axios.post('/marcas',formData,opciones)
-                .then(function(responses) {
-                    me.marca='';
-                    me.fabricante='';
-                    me.imagenMiniatura = '';
-                    me.SweetalertEditarMarca();
-                    window.location = '/marcas';        
+                }).then(function(responses) {
+                    console.log(responses);
+                    me.grupo='';
+                    me.orden='';
+                    me.SweetalertAñadirGrupoAtributo();
+                    window.location = '/grupoatributos';        
                 })
                 .catch(error => Swal.fire({
                     icon: 'error',
@@ -340,7 +273,7 @@
                 }));
             },
             
-            EliminarMarca(){
+            EliminarGrupoAtributo(){
 
                 const swalWithBootstrapButtons = Swal.mixin({
                     
@@ -366,10 +299,10 @@
 
 
 
-                        axios.delete('/marcas/'+this.id)
+                        axios.delete('/grupoatributos/'+this.id)
                         .then(function (response) {
                             console.log(response);
-                            window.location = '/marcas';
+                            window.location = '/grupoatributos';
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -399,67 +332,61 @@
 
             },
 
-            replace_image(){
+            EditarGrupoAtributo(){
 
-                        let me = this;
+                let me = this;
 
-                        let opciones = {
-                            headers: {'Content-Type': 'multipart/form-data'}
-                        };
+                axios.put('/grupoatributos/'+this.id,{
 
-                        let formData = new FormData();
+                    'grupo': this.grupo,
+                    'orden': this.orden,
 
-                        formData.append('marca',this.marca);
-                        formData.append('fabricante',this.fabricante);
-                        formData.append('image',this.image);
-                        formData.append('_method', 'patch');
-                    
-
-                        axios.post('/marcas/'+this.id,formData,opciones)
-
-                            /*'marca': this.marca,
-                            'fabricante': this.fabricante,
-                            'logo': this.image,
-                            'id': this.id*/
-                        
-                        .then(function(responses) {
-                            me.marca='';
-                            me.fabricante='';
-                            me.imagenMiniatura = '';
-                            me.SweetalertEditarMarca();
-                            window.location = '/marcas';        
-                        })
-                        .catch(error => Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'No puede ir vacio los campos'
-                            //footer: '<a href="">Why do I have this issue?</a>'
-                        }));
+                }).then(function(responses) {
+                    me.grupo='';
+                    me.orden='';
+                    me.SweetalertEditarGrupoAtributo();
+                    window.location = '/grupoatributos';        
+                })
+                .catch(error => Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No puede ir vacio los campos'
+                    //footer: '<a href="">Why do I have this issue?</a>'
+                }));
                 
                 
             },
             
             
-            SweetalertCrearMarca(){
+            SweetalertEditarGrupoAtributo(){
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Se ha guardado exitosamente la marca',
+                    title: 'Se ha editado exitosamente el grupo atributo',
                     showConfirmButton: false,
                     timer: 1500
                 });
             },
 
-            SweetalertEditarMarca(){
+            SweetalertAñadirGrupoAtributo(){
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Se ha guardado exitosamente la categoria',
+                    title: 'Se ha guardado exitosamente el grupo atributo',
                     showConfirmButton: false,
                     timer: 1500
                 });
             },
         
+            Atributo(){
+                let me=this;
+                window.location = '/grupoatributos/atributos/'+this.id;   
+                
+                
+                
+
+            },
+
             mostrarDetalle(){
                 let me=this;
                 me.listado=0;
@@ -467,9 +394,8 @@
             },
             ocultarDetalle(){
                 let me=this;
-                me.marca='';
-                me.fabricante='';
-                me.imagenMiniatura = '';
+                me.grupo='';
+                me.orden='';
                 me.listado=1;
                 me.tabla();
             },
@@ -478,7 +404,7 @@
             }, 
             abrirFormulario(modelo, accion, data = []){
                 switch(modelo){
-                    case "marca":
+                    case "grupoatributo":
                     {
                         switch(accion){
                             case 'registrar':
@@ -495,16 +421,23 @@
                                 console.log(data);
                                 this.listado=2;
                                 this.id=data['id'];
-                                this.marca = data['marca'];
-                                this.fabricante= data['fabricante'];
-                                this.imagenMiniatura= data['logo'];
+                                this.grupo = data['grupo'];
+                                this.orden= data['orden'];
                                 break;
                             }
                             case 'eliminar':
                             {
                                 console.log(data);
-                                this.EliminarMarca();
+                                this.EliminarGrupoAtributo();
                                 this.id=data['id'];
+                                break;
+                            }
+                            case 'atributo':
+                            {
+                                console.log(data);
+                                this.id=data['id'];
+                                this.Atributo();
+                                
                                 break;
                             }
                         }
@@ -553,19 +486,16 @@
         margin-right:5px;
     }
 
-    @media only screen and (max-width: 10000px) and (min-width: 515px)  {
+    @media only screen and (max-width: 10000px) and (min-width: 320px)  {
 
-        .circular-image img{
+        /*.circular-image img{
             width: 40px;
             height: 40px;
 
-            /* fill the container, preserving aspect ratio, and cropping to fit */
             background-size: cover;
 
-            /* center the image vertically and horizontally */
             background-position: top center;
 
-            /* round the edges to a circle with border radius 1/2 container size */
             border-radius: 50%;
             margin-left: 10px;margin-right: auto;
             
@@ -575,46 +505,36 @@
 
             width:2%;
             
+        }*/
+
+
+        .widthOpcionesGrupoAtributo{
+            width: 2%;
+            
         }
-
-        .widthOpciones{
-
-            width:  2%;
-
-
+        .idGrupoAtributo{
+            width: 1%;
         }
-
-    
-
+        .grupoGrupoAtributo{
+            width: 10%;
+        }
+        .ordenGrupoAtributo{
+            width: 3%;
+        }
+        .estadoGrupoAtributo{
+            width: 1%;
+        }
+        .widthOpcionesGrupoAtributo button,
+        .widthOpcionesGrupoAtributo a{
+            font-size: 11px;
+            
+        }
             
 
     }
 
-    @media only screen and (max-width: 515px) and (min-width: 320px)  {
-
-        .circular-image img{
-            width: 40px;
-            height: 40px;
-
-            /* fill the container, preserving aspect ratio, and cropping to fit */
-            background-size: cover;
 
 
-
-            /* round the edges to a circle with border radius 1/2 container size */
-            border-radius: 50%;
-                margin-left: 6px;
-            
-        }
-
-        .circular-image {
-            margin-left: auto;margin-right: auto;
-            width:1%;
-            
-        }
-        
-
-    }
-
+   
 
     </style>

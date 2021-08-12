@@ -26,6 +26,8 @@
 <body class="hold-transition sidebar-mini">
     
     <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Georama:wght@300&display=swap');
     
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
@@ -34,6 +36,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
         @import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
+
+        @import url('https://fonts.googleapis.com/css2?family=Georama:wght@300&display=swap');
 
     </style>
 

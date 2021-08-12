@@ -96,6 +96,13 @@
               </a>
             </li>
 
+            <li  class="nav-item">
+              <a href="{{route('grupoatributos.index')}}" class="nav-link ">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Grupo Atributos</p>
+              </a>
+            </li>
+
           </ul>
           
         </li>

@@ -17,6 +17,8 @@ Route::get('/', ['as' => 'inicio', function () {
     return view('contenido/contenido');
 }]);
 
+
+
 /*===============  CATEGORIAS  ==============*/
 Route::get('/categoria',['as'=>'categoriaindex','uses'=> 'CategoriaController@index']);
 
@@ -27,14 +29,10 @@ Route::post('/categoria/storecategoria', 'CategoriaController@store');
 Route::get('/categoria/{id}/edit', 'CategoriaController@edit')->name('categoria.edit');
 Route::put('/categoria/{id}', 'CategoriaController@update')->name('categoria.update');
 Route::delete('/categoria/{id}', 'CategoriaController@destroy')->name('categoria.destroy');
-//Route::get('/categorias', 'CategoriaController@index');
-
-/*===============  UNIDADES DE MEDIDAS  ==============*/
-
-//Route::get('/um',['as'=>'unidadmedida','uses'=> 'CategoriaController@index']);
 
 
 
+/*===============  HOME  ==============*/
 
 Auth::routes();
 
@@ -42,33 +40,40 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
+/*===============  UMS  ==============*/
 
 Route::resource('ums','UmController');
 
-//Route::resource('productos','ProductoController'); 
 
+
+/*===============  PRODUCTOS  ==============*/
+
+//Route::resource('productos','ProductoController'); 
 
 Route::resource('productos','ProductoController');
 
 
+
+/*===============  MARCAS  ==============*/
+
 Route::apiResource('marcas','MarcaController')->parameters(['marcas'=>'id']); 
 Route::get('/marca', 'MarcaController@marca');
 
- /* Route::get('/marcas','MarcaController@index')->name('marcas.index'); 
-  Route::post('/marcas','MarcaController@store'); 
- Route::patch('/marcas/{id}','MarcaController@update'); 
- Route::get('/marca/{id}', 'MarcaController@marca');*/
- 
-/*Route::get('/marcas', 'MarcaController@index')->name('marcas.index');
-Route::post('/marcas', 'MarcaController@store')->name('marcas.store');
-Route::get('/marca', 'MarcaController@marca');
-Route::get('/marcas/{marca}/edit', 'MarcaController@edit')->name('marcas.edit');
-Route::put('/marcas/{marca}', 'MarcaController@update')->name('marcas.update');
-Route::delete('/marcas/{marca}', 'MarcaController@destroy')->name('marcas.destroy');*/
-/*Route::get('/marcas', 'MarcaController@index')->name('marcas.index');
-Route::get('/marcas/create', 'MarcaController@create')->name('marcas.create');
-Route::post('/marcas', 'MarcaController@store');*/
-//Route::get('/marcas/{id}/edit', 'MarcaController@edit')->name('marcas.edit');
-//Route::put('/marcas/{id}', 'MarcaController@update')->name('marcas.update');
-//Route::delete('/marcas/{id}', 'MarcaController@destroy')->name('marcas.destroy');
 
+
+/*===============  GRUPOATRIBUTOS  ==============*/
+
+Route::apiResource('grupoatributos','GrupoAtributoController')->parameters(['grupoatributos'=>'id']);
+Route::get('/grupoatributo', 'GrupoAtributoController@grupoatributo');
+
+
+
+/*===============  ATRIBUTOS  ==============*/
+//Route::Resource('grupoatributos/atributos','AtributoController')->parameters(['atributos'=>'id']);
+Route::get('/grupoatributos/atributos/{id}', 'AtributoController@index');
+Route::post('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@store');
+Route::get('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@edit')->name('categoria.edit');
+Route::put('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@update')->name('categoria.update');
+Route::delete('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@destroy')->name('categoria.destroy');
+
+Route::get('/atributo', 'AtributoController@atributo');

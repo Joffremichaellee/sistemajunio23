@@ -71,6 +71,8 @@
     <script src="/admin/dist/js/adminlte.min.js"></script>
     <!--SweetAlert2-->
     <script src="/sweetalert/sweetalert2.all.min.js" defer></script>
+    <!--createblade-->
+    <script src="/js/createblade.js" defer></script>
     <!--Plugins JS de datatable -->
     <script src="/admin/plugins/datatables/jquery.dataTables.min.js" defer></script>
     <script src="/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js" defer></script>
@@ -87,12 +89,21 @@
     <!-- Bootstrap4 Duallistbox -->
     <script src="/admin/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js" defer></script>    <!--Añadimos el js generado con webpack, donde se encuentra nuestro componente vuejs-->
     <script src="/js/app.js"></script>
-
+    <script src="/admin/dist/js/demo.js" defer></script>
   <script>
     $(document).ready( function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": true, "autoWidth": false
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      
+    });
+
+    
+
+    $(document).ready( function () {
+      $("#myTableAtributo").DataTable({
+        "responsive": true, "lengthChange": true, "autoWidth": false
+      }).buttons().container().appendTo('#myTableAtributo_wrapper .col-md-6:eq(0)');
       
     });
     

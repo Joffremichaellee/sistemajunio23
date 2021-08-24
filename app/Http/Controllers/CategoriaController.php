@@ -18,12 +18,12 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Categoria $categoria)
         {
             
             $categorias =  Categoria::all();
 
-            return view('vistas.categoria', compact('categorias'));
+            return view('categoria.index', compact('categorias'));
                     
         }
 
@@ -32,9 +32,9 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Categoria $categoria)
     {
-        return view('vistas.nuevaCategoria');
+        return view('categoria.create');
     }
 
     /**
@@ -46,76 +46,26 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
 
-        /*$this->validate($request,[
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-        ]);*/
 
         $request->validate([
             
-            'image' => 'required|image|max:2048',
+            'imagen' => 'required|image|max:2048',
 
         ]);
 
-        
-        /*$image = request()->file('image');
 
-        $imageName = $image->getClientOriginalName();
-        $imageName = time().'_'.$imageName;
-
-        $image->move(public_path('/images'), $imageName);*/
-
-        $image =  $request->file('image')->store('public');
+        $imagen =  $request->file('imagen')->store('public');
 
 
-        
 
-        //quitando esto ejecuta y guarda la img
-        /*$img = new Categoria;
-        $img->image = 'images/'.$imageName;
-        $img->save();*/
-
-        /*$request->validate([
-            
-            'image' => 'image|max:2048',
-
-        ]);*/
-
-        //return $request->file('file')->store('public');
-
-       /* $imagen = $request->image;
-
-        if ($imagen != '') {
-            $image = '';
-
-            $url = '';
-        }else{
-
-            $image =  $request->file('image')->store('public');
-
-            $url = Storage::url($image);
-        }*/
-
-       
-
-        return Categoria::Create([
+        Categoria::Create([
             'nombre' => $request->nombre,
-            //'image' => 'images/'.$imageName,
-            'image' => Storage::url($image),
+            'image' => Storage::url($imagen),
             'descripcion' => $request->descripcion
             
         ]);
 
-        
-        //$categoria = new Categoria();
-        //$categoria->nombre = $request->nombre;
-        //$categoria->save();
-
-        /*DB::table('categorias')->insert([
-            "nombre" => $request->input('nombre'),
-        ]);*/
-
-        //return redirect()->action('CategoriaController@index');
-        //return redirect()->route('categoriaindex');
+        return redirect()->route('categorias.index');
 
     }
 
@@ -140,7 +90,7 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::findOrfail($id);
 
-        return view('vistas.categoriaedit', compact('categoria'));
+        return view('categoria.edit', compact('categoria'));
     }
 
     /**

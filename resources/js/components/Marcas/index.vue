@@ -31,7 +31,7 @@
                             </div>
                         
                             <div class="card-body">
-                                <table id="myTable" class="table table-bordered table-striped table-hover  " >
+                                <table id="myTable" class="table table-striped table-hover  " >
                                     <thead>
                                         <tr >
                                             
@@ -58,7 +58,7 @@
                                             <td class="circular-image" ><img :src="marca.logo"  height="50px"></td>
                                             <td v-text="marca.marca"></td>
                                             <td v-text="marca.fabricante"></td>
-                                            <td class="widthOpciones"> 
+                                            <td class="widthOpciones" style="padding: 17px 0px 0px 15.5px;"> 
                                             &nbsp;
                                                 <button type="button" @click="abrirFormulario('marca','actualizar',marca)" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-pencil-alt" style="color:#fff"></i>
@@ -542,18 +542,9 @@
     }
     }
 
-    .fa-plus{
-         width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: top center;
-        border: 2px solid;
-        padding: 5px 0px 0px 1px;
-        margin-right:5px;
-    }
+    
 
-    @media only screen and (max-width: 10000px) and (min-width: 515px)  {
+    @media only screen and (max-width: 10000px) and (min-width: 506px)  {
 
         .circular-image img{
             width: 40px;
@@ -580,17 +571,22 @@
         .widthOpciones{
 
             width:  2%;
-
+            
 
         }
 
-    
+        .widthOpciones button,
+        .widthOpciones a{
+
+            font-size: 11px;
+
+        }        
 
             
 
     }
 
-    @media only screen and (max-width: 515px) and (min-width: 320px)  {
+    @media only screen and (max-width: 505px) and (min-width: 320px)  {
 
         .circular-image img{
             width: 40px;

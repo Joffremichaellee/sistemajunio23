@@ -12,7 +12,7 @@ class AtributoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Atributo $atributo,$id)
     {
         
         return view('atributo.index');
@@ -47,7 +47,7 @@ class AtributoController extends Controller
      */
     public function show(Atributo $atributo)
     {
-        //
+        return $atributo;
     }
 
     /**

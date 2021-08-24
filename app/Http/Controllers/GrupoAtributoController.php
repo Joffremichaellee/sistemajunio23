@@ -50,7 +50,9 @@ class GrupoAtributoController extends Controller
      */
     public function show(GrupoAtributo $grupoAtributo)
     {
-        //
+        return $grupoAtributo->atributos;
+
+        
     }
 
     /**

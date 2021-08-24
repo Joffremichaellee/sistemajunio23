@@ -7,21 +7,9 @@
                     <template v-if="listado==1">
                     <!-- Ejemplo de tabla Listado -->
                         <div class="card-header" style="padding: 0px 0px 18px; font-family: 'Rubik', sans-serif;">
-                            <button type="button" @click="mostrarDetalle()" class="btn btn-success button-registrar" style="border-radius:0;">
-                                <i class="fa fa-plus" aria-hidden="true"></i>Nuevo Grupo Atributo
+                            <button type="button" @click="mostrarFormularioNuevoGrupoAtributo()" class="btn btn-success button-registrar" style="border-radius:0;">
+                                <i class="fa fa-plus " aria-hidden="true"></i>Nuevo Grupo Atributo
                             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                            <!--<button type="button" class="btn btn-warning button-importar" style="border-radius:0;">
-                                <i class="icon-plus"></i>CSV Importar
-                            </button>
-
-                            <button type="button" class="btn btn-outline-warning button-exportar" style="border-radius:0;">
-                                <i class="icon-plus"></i>CSV Exportar
-                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                            <button type="button" class="btn btn-danger button-reportar"  style="border-radius:0;">
-                                <i class="icon-plus"></i>Reportes
-                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
 
                         </div>
             
@@ -31,16 +19,85 @@
                             </div>
                         
                             <div class="card-body">
-                                <table id="myTable" class="table table-striped table-hover  " >
+                                <table id="myTable" class="table table-striped table-hover" >
                                     <thead>
                                         <tr style="font-family: 'Georama', sans-serif;">
                                             <th>id</th> 
                                             <th>grupo</th>                 
                                             <th>orden</th>
                                             <th>estado</th>
+                                            <th>opciones</th>
+                                            
+                                        </tr>
+                                       
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="cursor: pointer;" @click="abrirFormulario('grupoatributo','atributo',grupoatributo)" v-for="grupoatributo in arrayGrupoAtributo" :key="grupoatributo.id">
+                                                <td class="idGrupoAtributo" v-text="grupoatributo.id"></td>
+                                                <td class="grupoGrupoAtributo" v-text="grupoatributo.grupo"></td>
+                                                <td class="ordenGrupoAtributo" v-text="grupoatributo.orden"></td>
+                                                <td class="estadoGrupoAtributo">
+                                                    <div v-if="grupoatributo.estado">
+                                                        <span class="badge badge-success">Activo</span>
+                                                    </div>
+                                                    <div v-else>
+                                                        <span class="badge badge-danger">Desactivado</span>
+                                                    </div>
+                                                    
+                                                </td>
+                                                <td class="widthOpcionesGrupoAtributo" style="padding: 10px 0px 0px;"> 
+                                                &nbsp;
+                                                    <button type="button" @click="abrirFormulario('grupoatributo','actualizar',grupoatributo)" class="btn btn-warning btn-sm">
+                                                        <i class="fas fa-pencil-alt" style="color:#fff"></i>
+                                                    </button>&nbsp;
+                                                    <button type="button" @click="abrirFormulario('grupoatributo','eliminar',grupoatributo)" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash-alt" style="color:#fff"></i>
+                                                    </button>&nbsp;
+                                                    <button type="button" @click="abrirFormulario('grupoatributo','atributo',grupoatributo)" class="btn btn-primary btn-sm">
+                                                        <i  class="fas fa-search-plus" style="color:#fff"></i>
+                                                    </button>
+                                                    
+                                                </td>
+                                            
+                                                
+                                        </tr>
+                                        
+                                    </tbody>
+                                   
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    
+                    <template v-if="listado==3">
+                    <!-- Ejemplo de tabla Listado -->
+                        <div style="padding: 0px 0px 18px; font-family: 'Rubik', sans-serif;">
+                            <button type="button" @click="mostrarFormularioNuevoGrupoAtributo()" class="btn btn-success button-registrar" style="border-radius:0;">
+                                <i class="fa fa-plus" aria-hidden="true"></i>Nuevo Atributo
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+            
+                        <div class="card">
+                            <div class="card-header" style="background-color: #F7F7F7;">
+                                <h3 class="card-title" style="font-family: 'Roboto', sans-serif;">Lista de Atributos</h3>
+                            </div>
+                        
+                            <div class="card-body">
+                                <table id="myTable" class="table table-striped table-hover  " >
+                                    <thead>
+                                        <tr style="font-family: 'Georama', sans-serif;">
+                                            <th>id</th> 
+                                            <th>atributo</th>                 
+                                            <th>orden</th>
+                                            <th>grupo_id</th>
+                                            <th>estado</th>
                                             <th>Opciones</th>
                                             
                                         </tr>
+                                       
                                     </thead>
                                     <tbody>
                                     
@@ -53,12 +110,13 @@
                                                 <td></td>
                                             </tr>-->
 
-                                    <tr style="cursor: pointer;" @click="abrirFormulario('grupoatributo','atributo',grupoatributo)" v-for="grupoatributo in arrayGrupoAtributo" :key="grupoatributo.id">
-                                            <td class="idGrupoAtributo" v-text="grupoatributo.id"></td>
-                                            <td class="grupoGrupoAtributo" v-text="grupoatributo.grupo"></td>
-                                            <td class="ordenGrupoAtributo" v-text="grupoatributo.orden"></td>
-                                            <td class="estadoGrupoAtributo">
-                                                <div v-if="grupoatributo.estado">
+                                        <tr  style="cursor: pointer;" v-for="atributo in arrayAtributo" :key="atributo.id">
+                                            <td class="idAtributo" v-text="atributo.id"></td>
+                                            <td class="Atributo" v-text="atributo.atributo"></td>
+                                            <td class="estadoAtributo" v-text="atributo.orden"></td>
+                                            <td class="idgrupoAtributodeatributo" v-text="atributo.gruposatributo_id"></td>
+                                            <td class="estadoAtributo">
+                                                <div v-if="atributo.estado">
                                                     <span class="badge badge-success">Activo</span>
                                                 </div>
                                                 <div v-else>
@@ -66,30 +124,37 @@
                                                 </div>
                                                 
                                             </td>
-                                            <td class="widthOpcionesGrupoAtributo" style="padding: 10px 0px 0px;"> 
-                                            &nbsp;
+                                            <td class="widthOpcionesAtributo" style="padding: 10px 0px 0px;"> 
+                                                &nbsp;
                                                 <button type="button" @click="abrirFormulario('grupoatributo','actualizar',grupoatributo)" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-pencil-alt" style="color:#fff"></i>
                                                 </button>&nbsp;
                                                 <button type="button" @click="abrirFormulario('grupoatributo','eliminar',grupoatributo)" class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash-alt" style="color:#fff"></i>
                                                 </button>&nbsp;
-                                                <button type="button" @click="abrirFormulario('grupoatributo','atributo',grupoatributo)" class="btn btn-primary btn-sm">
-                                                    <i  class="fas fa-search-plus" style="color:#fff"></i>
-                                                </button>
+                                                
                                                 
                                             </td>
-                                        
+                                            
                                             
                                         </tr>
-                                    
+                                        
                                     </tbody>
                                    
                                     
                                 </table>
+                                
                             </div>
+                            
+                        </div>
+                       
+                        <div class="card-header" style="padding: 0px 0px 18px; font-family: 'Rubik', sans-serif;">
+                            <button type="button" @click="volverGrupoAtributo()" class="btn btn-primary button-registrar" style="border-radius:0;">
+                                <i class="fa fa-arrow-left icon-circular" aria-hidden="true"></i>Volver
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                     </template>
+                    
                     <!--Fin Listado-->
                     <!-- Detalle-->
                     <template v-else-if="listado==0">
@@ -197,6 +262,9 @@
                             </div>
 
                     </template>
+
+                                        <!-- Listado-->
+
                     <!-- fin ver ingreso -->
             
                 <!-- Fin ejemplo de tabla Listado -->
@@ -210,15 +278,20 @@
     import datatable from 'datatables.net-bs4'
     export default {
         mounted() {
-                this.listarGrupoMarca();
+                this.listarGrupoAtributo();
+                
+                
         },
         data (){
             return {
                 id: 0,
                 arrayGrupoAtributo : [],
+                arrayAtributo:[],
                 grupo : '',
                 orden : '',
-                listado:1
+                listado:1,
+                listadoAtributo:0,
+                listadogrupoAtributo:0,
 
 
                 
@@ -236,17 +309,19 @@
                 $(document).ready( function () {
                     $('#myTable').DataTable({
                         "responsive": true, "lengthChange": true, "autoWidth": false,
-                        
+                        //"autoWidth": false, si pongo true se deforma:(
                     });
                     
                 } );
             },
 
-            listarGrupoMarca(){
+            listarGrupoAtributo(){
                 let me=this;
                 axios.get('/grupoatributo').then(res=>{
+                    
+                    me.tabla();
                     me.arrayGrupoAtributo = res.data;
-                    this.tabla();
+                    
                 })
             },
             AñadirGrupoAtributo(){
@@ -380,14 +455,23 @@
         
             Atributo(){
                 let me=this;
-                window.location = '/grupoatributos/atributos/'+this.id;   
-                
-                
-                
+                axios.get('/grupoatributo/'+this.grupoAtributo).then(res=>{
+                    $("#myTable").dataTable().fnDestroy();
+                    me.tabla();
+                    me.listado=3;
+                    
+                    me.arrayAtributo = res.data;
+                   
+                    
+
+                })
+
 
             },
-
-            mostrarDetalle(){
+            volverGrupoAtributo(){
+                window.location = '/grupoatributos';    
+            },
+            mostrarFormularioNuevoGrupoAtributo(){
                 let me=this;
                 me.listado=0;
             
@@ -435,7 +519,8 @@
                             case 'atributo':
                             {
                                 console.log(data);
-                                this.id=data['id'];
+                                this.grupoAtributo=data['id'];
+                              
                                 this.Atributo();
                                 
                                 break;
@@ -475,9 +560,10 @@
     }
     }
 
-    .fa-plus{
-         width: 30px;
-        height: 30px;
+
+    .icon-circular{
+         width: 29px;
+        height: 29px;
         border-radius: 50%;
         background-size: cover;
         background-position: top center;
@@ -519,13 +605,33 @@
             width: 10%;
         }
         .ordenGrupoAtributo{
-            width: 3%;
+            width: 13%;
         }
         .estadoGrupoAtributo{
+            width: 10%;
+        }
+
+        .widthOpcionesAtributo{
             width: 1%;
+            
+        }
+        .idgrupoAtributodeatributo{
+            width:10%;
+        }
+        .idAtributo{
+            width: 10%;
+        }
+        .Atributo{
+            width: 10%;
+        }
+        .ordenAtributo{
+            width: 10%;
+        }
+        .estadoAtributo{
+            width: 10%;
         }
         .widthOpcionesGrupoAtributo button,
-        .widthOpcionesGrupoAtributo a{
+        .widthOpcionesAtributo button{
             font-size: 11px;
             
         }
@@ -538,3 +644,4 @@
    
 
     </style>
+

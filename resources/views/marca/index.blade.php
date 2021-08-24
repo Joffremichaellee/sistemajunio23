@@ -4,6 +4,4 @@
 
     <index.marca></index.marca>
 
-
-
     @endsection

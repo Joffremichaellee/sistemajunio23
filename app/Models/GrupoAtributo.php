@@ -9,5 +9,16 @@ class GrupoAtributo extends Model
 {
     use HasFactory;
     protected $table = 'gruposatributos';
-    protected $fillable = ['marca','fabricante','logo'];
+    protected $fillable = ['grupo','estado','orden','gruposatributo_id'];
+
+    public function atributos()
+    {
+        return $this->hasMany('App\Models\Atributo','gruposatributo_id');
+    }
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
+
 }
+//Atributo::class

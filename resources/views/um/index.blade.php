@@ -30,7 +30,7 @@
               
         <!-- /.card-header -->
         <div class="card-body" style="font-family: 'Rubik', sans-serif;">
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="example1" class="table table-striped">
             <thead>
             <tr>
                 <th>Id</th>
@@ -45,6 +45,9 @@
 
                     <tr>
                         <td>{{ $um->id }}</td>
+                        
+                        <td>{{ $um->nombre }}</td>
+                        <td>{{ $um->simbolo }}</td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm">
                                 <i class="fas fa-eye" style="color:#fff"></i>
@@ -64,23 +67,13 @@
                             </form>
                             
                         </td>
-                        <td>{{ $um->nombre }}</td>
-                        <td>{{ $um->simbolo }}</td>
-                       
                         
                     </tr>
 
                 @endforeach 
 
             </tbody>
-            <tfoot>
-            <tr>
-                <th>Id</th>
-                <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Simbolo</th>
-            </tr>
-            </tfoot>
+            
         </table>
         </div>
         <!-- /.card-body -->

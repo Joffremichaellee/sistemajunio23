@@ -12,7 +12,7 @@
                             <div class=" card-primary">
 
                                 <div class="card-header">
-                                    <h3 class="card-title">Nueva Categoria</h3>
+                                    <h3 class="card-title">Nueva Um</h3>
                                 </div>
 
                                 <div class="row">

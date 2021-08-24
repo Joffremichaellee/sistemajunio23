@@ -2879,18 +2879,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
-    this.listarGrupoMarca();
+    this.listarGrupoAtributo();
   },
   data: function data() {
     return {
       id: 0,
       arrayGrupoAtributo: [],
+      arrayAtributo: [],
       grupo: '',
       orden: '',
-      listado: 1
+      listado: 1,
+      listadoAtributo: 0,
+      listadogrupoAtributo: 0
     };
   },
   computed: {
@@ -2904,18 +2975,16 @@ __webpack_require__.r(__webpack_exports__);
         $('#myTable').DataTable({
           "responsive": true,
           "lengthChange": true,
-          "autoWidth": false
+          "autoWidth": false //"autoWidth": false, si pongo true se deforma:(
+
         });
       });
     },
-    listarGrupoMarca: function listarGrupoMarca() {
-      var _this = this;
-
+    listarGrupoAtributo: function listarGrupoAtributo() {
       var me = this;
       axios.get('/grupoatributo').then(function (res) {
+        me.tabla();
         me.arrayGrupoAtributo = res.data;
-
-        _this.tabla();
       });
     },
     AñadirGrupoAtributo: function AñadirGrupoAtributo() {
@@ -2939,7 +3008,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     EliminarGrupoAtributo: function EliminarGrupoAtributo() {
-      var _this2 = this;
+      var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -2958,8 +3027,8 @@ __webpack_require__.r(__webpack_exports__);
         reverseButtons: true
       }).then(function (result) {
         if (result.isConfirmed) {
-          var me = _this2;
-          axios["delete"]('/grupoatributos/' + _this2.id).then(function (response) {
+          var me = _this;
+          axios["delete"]('/grupoatributos/' + _this.id).then(function (response) {
             console.log(response);
             window.location = '/grupoatributos';
             Swal.fire({
@@ -3018,9 +3087,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     Atributo: function Atributo() {
       var me = this;
-      window.location = '/grupoatributos/atributos/' + this.id;
+      axios.get('/grupoatributo/' + this.grupoAtributo).then(function (res) {
+        $("#myTable").dataTable().fnDestroy();
+        me.tabla();
+        me.listado = 3;
+        me.arrayAtributo = res.data;
+      });
     },
-    mostrarDetalle: function mostrarDetalle() {
+    volverGrupoAtributo: function volverGrupoAtributo() {
+      window.location = '/grupoatributos';
+    },
+    mostrarFormularioNuevoGrupoAtributo: function mostrarFormularioNuevoGrupoAtributo() {
       var me = this;
       me.listado = 0;
     },
@@ -3072,7 +3149,7 @@ __webpack_require__.r(__webpack_exports__);
               case 'atributo':
                 {
                   console.log(data);
-                  this.id = data['id'];
+                  this.grupoAtributo = data['id'];
                   this.Atributo();
                   break;
                 }
@@ -8149,7 +8226,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-content{\nwidth: 100% !important;\nposition: absolute !important;\n}\n.mostrar{\ndisplay: list-item !important;\nopacity: 1 !important;\nposition: absolute !important;\nbackground-color: #3c29297a !important;\n}\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.text-error{\ncolor: red !important;\nfont-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\nmargin-top: 2rem;\n}\n}\n.fa-plus{\n     width: 30px;\n    height: 30px;\n    border-radius: 50%;\n    background-size: cover;\n    background-position: top center;\n    border: 2px solid;\n    padding: 5px 0px 0px 1px;\n    margin-right:5px;\n}\n@media only screen and (max-width: 10000px) and (min-width: 320px)  {\n\n    /*.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        background-size: cover;\n\n        background-position: top center;\n\n        border-radius: 50%;\n        margin-left: 10px;margin-right: auto;\n        \n    }\n\n    .circular-image {\n\n        width:2%;\n        \n    }*/\n.widthOpcionesGrupoAtributo{\n        width: 2%;\n}\n.idGrupoAtributo{\n        width: 1%;\n}\n.grupoGrupoAtributo{\n        width: 10%;\n}\n.ordenGrupoAtributo{\n        width: 3%;\n}\n.estadoGrupoAtributo{\n        width: 1%;\n}\n.widthOpcionesGrupoAtributo button,\n    .widthOpcionesGrupoAtributo a{\n        font-size: 11px;\n}\n}\n\n\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-content{\nwidth: 100% !important;\nposition: absolute !important;\n}\n.mostrar{\ndisplay: list-item !important;\nopacity: 1 !important;\nposition: absolute !important;\nbackground-color: #3c29297a !important;\n}\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.text-error{\ncolor: red !important;\nfont-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\nmargin-top: 2rem;\n}\n}\n.icon-circular{\n     width: 29px;\n    height: 29px;\n    border-radius: 50%;\n    background-size: cover;\n    background-position: top center;\n    border: 2px solid;\n    padding: 5px 0px 0px 1px;\n    margin-right:5px;\n}\n@media only screen and (max-width: 10000px) and (min-width: 320px)  {\n\n    /*.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        background-size: cover;\n\n        background-position: top center;\n\n        border-radius: 50%;\n        margin-left: 10px;margin-right: auto;\n        \n    }\n\n    .circular-image {\n\n        width:2%;\n        \n    }*/\n.widthOpcionesGrupoAtributo{\n        width: 2%;\n}\n.idGrupoAtributo{\n        width: 1%;\n}\n.grupoGrupoAtributo{\n        width: 10%;\n}\n.ordenGrupoAtributo{\n        width: 13%;\n}\n.estadoGrupoAtributo{\n        width: 10%;\n}\n.widthOpcionesAtributo{\n        width: 1%;\n}\n.idgrupoAtributodeatributo{\n        width:10%;\n}\n.idAtributo{\n        width: 10%;\n}\n.Atributo{\n        width: 10%;\n}\n.ordenAtributo{\n        width: 10%;\n}\n.estadoAtributo{\n        width: 10%;\n}\n.widthOpcionesGrupoAtributo button,\n    .widthOpcionesAtributo button{\n        font-size: 11px;\n}\n}\n\n\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8173,7 +8250,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-content{\nwidth: 100% !important;\nposition: absolute !important;\n}\n.mostrar{\ndisplay: list-item !important;\nopacity: 1 !important;\nposition: absolute !important;\nbackground-color: #3c29297a !important;\n}\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.text-error{\ncolor: red !important;\nfont-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\nmargin-top: 2rem;\n}\n}\n.fa-plus{\n     width: 30px;\n    height: 30px;\n    border-radius: 50%;\n    background-size: cover;\n    background-position: top center;\n    border: 2px solid;\n    padding: 5px 0px 0px 1px;\n    margin-right:5px;\n}\n@media only screen and (max-width: 10000px) and (min-width: 515px)  {\n.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        /* fill the container, preserving aspect ratio, and cropping to fit */\n        background-size: cover;\n\n        /* center the image vertically and horizontally */\n        background-position: top center;\n\n        /* round the edges to a circle with border radius 1/2 container size */\n        border-radius: 50%;\n        margin-left: 10px;margin-right: auto;\n}\n.circular-image {\n\n        width:2%;\n}\n.widthOpciones{\n\n        width:  2%;\n}\n}\n@media only screen and (max-width: 515px) and (min-width: 320px)  {\n.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        /* fill the container, preserving aspect ratio, and cropping to fit */\n        background-size: cover;\n\n\n\n        /* round the edges to a circle with border radius 1/2 container size */\n        border-radius: 50%;\n            margin-left: 6px;\n}\n.circular-image {\n        margin-left: auto;margin-right: auto;\n        width:1%;\n}\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-content{\nwidth: 100% !important;\nposition: absolute !important;\n}\n.mostrar{\ndisplay: list-item !important;\nopacity: 1 !important;\nposition: absolute !important;\nbackground-color: #3c29297a !important;\n}\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.text-error{\ncolor: red !important;\nfont-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\nmargin-top: 2rem;\n}\n}\n@media only screen and (max-width: 10000px) and (min-width: 506px)  {\n.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        /* fill the container, preserving aspect ratio, and cropping to fit */\n        background-size: cover;\n\n        /* center the image vertically and horizontally */\n        background-position: top center;\n\n        /* round the edges to a circle with border radius 1/2 container size */\n        border-radius: 50%;\n        margin-left: 10px;margin-right: auto;\n}\n.circular-image {\n\n        width:2%;\n}\n.widthOpciones{\n\n        width:  2%;\n}\n.widthOpciones button,\n    .widthOpciones a{\n\n        font-size: 11px;\n}\n}\n@media only screen and (max-width: 505px) and (min-width: 320px)  {\n.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        /* fill the container, preserving aspect ratio, and cropping to fit */\n        background-size: cover;\n\n\n\n        /* round the edges to a circle with border radius 1/2 container size */\n        border-radius: 50%;\n            margin-left: 6px;\n}\n.circular-image {\n        margin-left: auto;margin-right: auto;\n        width:1%;\n}\n}\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55970,19 +56047,19 @@ var render = function() {
                       attrs: { type: "button" },
                       on: {
                         click: function($event) {
-                          return _vm.mostrarDetalle()
+                          return _vm.mostrarFormularioNuevoGrupoAtributo()
                         }
                       }
                     },
                     [
                       _c("i", {
-                        staticClass: "fa fa-plus",
+                        staticClass: "fa fa-plus ",
                         attrs: { "aria-hidden": "true" }
                       }),
                       _vm._v("Nuevo Grupo Atributo\n                    ")
                     ]
                   ),
-                  _vm._v("      \n\n                    ")
+                  _vm._v("      \n\n                ")
                 ]
               ),
               _vm._v(" "),
@@ -55993,7 +56070,7 @@ var render = function() {
                   _c(
                     "table",
                     {
-                      staticClass: "table table-striped table-hover  ",
+                      staticClass: "table table-striped table-hover",
                       attrs: { id: "myTable" }
                     },
                     [
@@ -56065,7 +56142,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    " \n                                     \n                                        "
+                                    " \n                                         \n                                            "
                                   ),
                                   _c(
                                     "button",
@@ -56090,7 +56167,7 @@ var render = function() {
                                     ]
                                   ),
                                   _vm._v(
-                                    " \n                                        "
+                                    " \n                                            "
                                   ),
                                   _c(
                                     "button",
@@ -56115,7 +56192,7 @@ var render = function() {
                                     ]
                                   ),
                                   _vm._v(
-                                    " \n                                        "
+                                    " \n                                            "
                                   ),
                                   _c(
                                     "button",
@@ -56151,11 +56228,223 @@ var render = function() {
                 ])
               ])
             ]
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.listado == 3
+          ? [
+              _c(
+                "div",
+                {
+                  staticStyle: {
+                    padding: "0px 0px 18px",
+                    "font-family": "'Rubik', sans-serif"
+                  }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success button-registrar",
+                      staticStyle: { "border-radius": "0" },
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.mostrarFormularioNuevoGrupoAtributo()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-plus",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v("Nuevo Atributo\n                    ")
+                    ]
+                  ),
+                  _vm._v("      \n                ")
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table table-striped table-hover  ",
+                      attrs: { id: "myTable" }
+                    },
+                    [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.arrayAtributo, function(atributo) {
+                          return _c(
+                            "tr",
+                            {
+                              key: atributo.id,
+                              staticStyle: { cursor: "pointer" }
+                            },
+                            [
+                              _c("td", {
+                                staticClass: "idAtributo",
+                                domProps: { textContent: _vm._s(atributo.id) }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                staticClass: "Atributo",
+                                domProps: {
+                                  textContent: _vm._s(atributo.atributo)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                staticClass: "estadoAtributo",
+                                domProps: {
+                                  textContent: _vm._s(atributo.orden)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                staticClass: "idgrupoAtributodeatributo",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    atributo.gruposatributo_id
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "estadoAtributo" }, [
+                                atributo.estado
+                                  ? _c("div", [
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-success" },
+                                        [_vm._v("Activo")]
+                                      )
+                                    ])
+                                  : _c("div", [
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-danger" },
+                                        [_vm._v("Desactivado")]
+                                      )
+                                    ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                {
+                                  staticClass: "widthOpcionesAtributo",
+                                  staticStyle: { padding: "10px 0px 0px" }
+                                },
+                                [
+                                  _vm._v(
+                                    " \n                                         \n                                        "
+                                  ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-warning btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.abrirFormulario(
+                                            "grupoatributo",
+                                            "actualizar",
+                                            _vm.grupoatributo
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-pencil-alt",
+                                        staticStyle: { color: "#fff" }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    " \n                                        "
+                                  ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.abrirFormulario(
+                                            "grupoatributo",
+                                            "eliminar",
+                                            _vm.grupoatributo
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-trash-alt",
+                                        staticStyle: { color: "#fff" }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    " \n                                        \n                                        \n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "card-header",
+                  staticStyle: {
+                    padding: "0px 0px 18px",
+                    "font-family": "'Rubik', sans-serif"
+                  }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary button-registrar",
+                      staticStyle: { "border-radius": "0" },
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.volverGrupoAtributo()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-arrow-left icon-circular",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v("Volver\n                    ")
+                    ]
+                  ),
+                  _vm._v("      \n                ")
+                ]
+              )
+            ]
           : _vm.listado == 0
           ? [
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: " card-primary" }, [
-                  _vm._m(2),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-6" }, [
@@ -56277,7 +56566,7 @@ var render = function() {
           ? [
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: " card-primary" }, [
-                  _vm._m(3),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-6" }, [
@@ -56438,6 +56727,48 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("estado")]),
         _vm._v(" "),
+        _c("th", [_vm._v("opciones")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-header",
+        staticStyle: { "background-color": "#F7F7F7" }
+      },
+      [
+        _c(
+          "h3",
+          {
+            staticClass: "card-title",
+            staticStyle: { "font-family": "'Roboto', sans-serif" }
+          },
+          [_vm._v("Lista de Atributos")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", { staticStyle: { "font-family": "'Georama', sans-serif" } }, [
+        _c("th", [_vm._v("id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("atributo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("orden")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("grupo_id")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("estado")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])
     ])
@@ -56529,8 +56860,7 @@ var render = function() {
                   _c(
                     "table",
                     {
-                      staticClass:
-                        "table table-bordered table-striped table-hover  ",
+                      staticClass: "table table-striped table-hover  ",
                       attrs: { id: "myTable" }
                     },
                     [
@@ -56556,58 +56886,65 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("td", { staticClass: "widthOpciones" }, [
-                              _vm._v(
-                                " \n                                     \n                                        "
-                              ),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-warning btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.abrirFormulario(
-                                        "marca",
-                                        "actualizar",
-                                        marca
-                                      )
+                            _c(
+                              "td",
+                              {
+                                staticClass: "widthOpciones",
+                                staticStyle: { padding: "17px 0px 0px 15.5px" }
+                              },
+                              [
+                                _vm._v(
+                                  " \n                                     \n                                        "
+                                ),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-warning btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.abrirFormulario(
+                                          "marca",
+                                          "actualizar",
+                                          marca
+                                        )
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fas fa-pencil-alt",
-                                    staticStyle: { color: "#fff" }
-                                  })
-                                ]
-                              ),
-                              _vm._v(
-                                "  \n                                        "
-                              ),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.abrirFormulario(
-                                        "marca",
-                                        "eliminar",
-                                        marca
-                                      )
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-pencil-alt",
+                                      staticStyle: { color: "#fff" }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(
+                                  "  \n                                        "
+                                ),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.abrirFormulario(
+                                          "marca",
+                                          "eliminar",
+                                          marca
+                                        )
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fas fa-trash-alt",
-                                    staticStyle: { color: "#fff" }
-                                  })
-                                ]
-                              )
-                            ])
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-trash-alt",
+                                      staticStyle: { color: "#fff" }
+                                    })
+                                  ]
+                                )
+                              ]
+                            )
                           ])
                         }),
                         0

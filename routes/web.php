@@ -68,19 +68,19 @@ Route::group(['middleware'=>['auth']],function(){
 
     Route::apiResource('grupoatributos','GrupoAtributoController')->parameters(['grupoatributos'=>'id']);
     Route::get('/grupoatributo', 'GrupoAtributoController@grupoatributo');
-
+    Route::get('/grupoatributo/{grupoAtributo}', 'GrupoAtributoController@show');
 
 
     /*===============  ATRIBUTOS  ==============*/
     //Route::Resource('grupoatributos/atributos','AtributoController')->parameters(['atributos'=>'id']);
-    Route::get('/grupoatributos/atributos/{id}', 'AtributoController@index');
+//    Route::get('/grupoatributos/atributos/{id}', 'AtributoController@index');
     Route::get('/grupoatributos/atributo/{atributo}', 'AtributoController@show');
-    Route::get('/grupoatributo/{grupoAtributo}', 'GrupoAtributoController@show');
-    Route::post('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@store');
-    Route::get('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@edit')->name('categoria.edit');
-    Route::put('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@update')->name('categoria.update');
-    Route::delete('/grupoatributos/atributos/{id}/{atributo}', 'AtributoController@destroy')->name('categoria.destroy');
 
-    Route::get('/atributo/{id}', 'AtributoController@atributo');
+    Route::post('/grupoatributos/atributos/{gruposatributo_id}', 'AtributoController@store');
+    Route::get('/grupoatributos/atributos/{gruposatributo_id}', 'AtributoController@edit')->name('categoria.edit');
+    Route::put('/grupoatributos/atributos/{gruposatributo_id}', 'AtributoController@update')->name('categoria.update');
+    Route::delete('/grupoatributos/atributos/{gruposatributo_id}', 'AtributoController@destroy')->name('categoria.destroy');
+
+    Route::get('/atributo', 'AtributoController@atributo');
 
 });

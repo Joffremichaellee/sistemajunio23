@@ -19,7 +19,7 @@
 
                                     <div class="card-body">
     
-                                        <form method="POST" action="{{ route('categorias.update', $categoria->id) }}" >
+                                        <form method="POST" action="{{ route('categorias.update', $categoria->id) }}" enctype="multipart/form-data">
                                             {!! method_field('PUT') !!}
                                             @csrf
                                                                                 
@@ -40,13 +40,15 @@
                                                 <div class="input-group">
 
                                                     <div class="custom-file">
-                                                        <input type="file" name="imagen" src="{{$categoria->image}}"  id="imagen" >
+                                                    <input type="file" name="imagen"  id="imagen">
                                                         <!--<label class="custom-file-label"  style="border-radius:0;" for="imagen">Imagen</label>-->
                                                     </div>
 
                                                 </div>
                                                 
                                             </div>
+
+                                            <figure id="preview"><img src="{{$categoria->image}}" alt="" height="200" width="230"></figure>
 
                                             <br>
                                             

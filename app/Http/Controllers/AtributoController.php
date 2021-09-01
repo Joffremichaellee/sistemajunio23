@@ -36,7 +36,12 @@ class AtributoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $atributo = new Atributo();
+        $atributo->atributo = $request->atributo;
+        $atributo->orden = $request->orden;
+        $atributo->gruposatributo_id= $request->gruposatributo_id;
+        $atributo->estado = '1';
+        $atributo->save();
     }
 
     /**

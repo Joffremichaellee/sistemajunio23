@@ -49,7 +49,7 @@
                                             </div>
 
                                           
-                                            <img width="230" height="200" id="imagenMiniatura" src="{{$categoria->image}}" alt="Foto de la Categoria">
+                                            <img width="230" height="200" id="imagenMiniatura" src="/storage/2qb3a3Y5ZHmNcCgKin4CGlIJvMhj365mNrdwsKlF.jpg" alt="Foto de la Categoria">
                                             
 
                                         

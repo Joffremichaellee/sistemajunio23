@@ -49,7 +49,7 @@
                                                     
                                                 </div>
 
-                                                <div id="preview"></div>
+                                                <figure id="preview"></figure>
 
                                                 <div class="form-group row">
 

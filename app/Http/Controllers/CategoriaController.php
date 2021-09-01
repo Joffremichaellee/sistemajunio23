@@ -100,23 +100,21 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
 
         
         $categoria = Categoria::findOrFail($id);
 
-        if ($request->hasFile('image')) 
+        if ($request->hasFile('imagen')) 
         {
 
-            $image = $request->file('image')->store('public');
-            $categoria->image  = Storage::url($image);
+            $imagen = $request->file('imagen')->store('public');
+            $categoria->image = Storage::url($imagen);
            
             
             
         }
-
-        
 
         $categoria->update($request->only('nombre','descripcion'));
 
@@ -140,9 +138,9 @@ class CategoriaController extends Controller
 
         $categoria->delete();
 
-        $imagePath = str_replace('storage', 'public', $image->image);
+        /*$imagePath = str_replace('storage', 'public', $image->image);
 
-        Storage::delete($image->image); 
+        Storage::delete($image->image); */
 
         return redirect()->route('categoriaindex');
 

@@ -2947,6 +2947,114 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
@@ -2959,9 +3067,11 @@ __webpack_require__.r(__webpack_exports__);
       arrayAtributo: [],
       grupo: '',
       orden: '',
+      atributo: '',
       listado: 1,
       listadoAtributo: 0,
-      listadogrupoAtributo: 0
+      listadogrupoAtributo: 0,
+      gruposatributo_id: 0
     };
   },
   computed: {
@@ -2996,7 +3106,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(responses);
         me.grupo = '';
         me.orden = '';
-        me.SweetalertAñadirGrupoAtributo();
+        me.SweetalertAñadirAtributo();
         window.location = '/grupoatributos';
       })["catch"](function (error) {
         return Swal.fire({
@@ -3051,13 +3161,42 @@ __webpack_require__.r(__webpack_exports__);
     EditarGrupoAtributo: function EditarGrupoAtributo() {
       var me = this;
       axios.put('/grupoatributos/' + this.id, {
-        'grupo': this.grupo,
+        'atributo': this.atributo,
         'orden': this.orden
       }).then(function (responses) {
         me.grupo = '';
         me.orden = '';
         me.SweetalertEditarGrupoAtributo();
         window.location = '/grupoatributos';
+      })["catch"](function (error) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No puede ir vacio los campos' //footer: '<a href="">Why do I have this issue?</a>'
+
+        });
+      });
+    },
+    Atributo: function Atributo() {
+      var me = this;
+      axios.get('/grupoatributo/' + this.grupoAtributo).then(function (res) {
+        $("#myTable").dataTable().fnDestroy();
+        me.tabla();
+        me.listado = 3;
+        me.arrayAtributo = res.data;
+      });
+    },
+    NuevoFormularioNuevoAtributo: function NuevoFormularioNuevoAtributo() {
+      var me = this;
+      axios.post('/grupoatributos/atributos/' + this.gruposatributo_id, {
+        'atributo': this.atributo,
+        'orden': this.orden,
+        'gruposatributo_id': this.gruposatributo_id
+      }).then(function (responses) {
+        console.log(responses);
+        me.tabla();
+        $("#myTable").dataTable().fnDestroy();
+        me.listado = 3;
       })["catch"](function (error) {
         return Swal.fire({
           icon: 'error',
@@ -3076,6 +3215,15 @@ __webpack_require__.r(__webpack_exports__);
         timer: 1500
       });
     },
+    SweetalertAñadirAtributo: function SweetalertAñadirAtributo() {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Se ha guardado exitosamente el atributo',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    },
     SweetalertAñadirGrupoAtributo: function SweetalertAñadirGrupoAtributo() {
       Swal.fire({
         position: 'center',
@@ -3083,15 +3231,6 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Se ha guardado exitosamente el grupo atributo',
         showConfirmButton: false,
         timer: 1500
-      });
-    },
-    Atributo: function Atributo() {
-      var me = this;
-      axios.get('/grupoatributo/' + this.grupoAtributo).then(function (res) {
-        $("#myTable").dataTable().fnDestroy();
-        me.tabla();
-        me.listado = 3;
-        me.arrayAtributo = res.data;
       });
     },
     volverGrupoAtributo: function volverGrupoAtributo() {
@@ -3108,26 +3247,22 @@ __webpack_require__.r(__webpack_exports__);
       me.listado = 1;
       me.tabla();
     },
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
+    caca: function caca() {
+      window.location = window.location;
     },
-    abrirFormulario: function abrirFormulario(modelo, accion) {
+    CerrarAñadirAtributo: function CerrarAñadirAtributo() {
+      var me = this;
+      me.tabla();
+      $("#myTable").dataTable().fnDestroy();
+      me.listado = 3;
+    },
+    abrirFormularioGrupoAtributo: function abrirFormularioGrupoAtributo(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       switch (modelo) {
         case "grupoatributo":
           {
             switch (accion) {
-              case 'registrar':
-                {
-                  this.modal = 1;
-                  this.tituloModal = 'Registrar Categoría';
-                  this.nombre = '';
-                  this.descripcion = '';
-                  this.tipoAccion = 1;
-                  break;
-                }
-
               case 'actualizar':
                 {
                   console.log(data);
@@ -3150,7 +3285,44 @@ __webpack_require__.r(__webpack_exports__);
                 {
                   console.log(data);
                   this.grupoAtributo = data['id'];
+                  this.id = data['id'];
+                  this.gruposatributo_id = data['id'];
                   this.Atributo();
+                  break;
+                }
+            }
+          }
+      }
+    },
+    abrirFormularioAtributo: function abrirFormularioAtributo(modelo, accion) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+      switch (modelo) {
+        case "atributo":
+          {
+            switch (accion) {
+              case 'registrar':
+                {
+                  console.log(data);
+                  this.listado = 4;
+                  break;
+                }
+
+              case 'actualizar':
+                {
+                  console.log(data);
+                  this.listado = 2;
+                  this.id = data['id'];
+                  this.grupo = data['grupo'];
+                  this.orden = data['orden'];
+                  break;
+                }
+
+              case 'eliminar':
+                {
+                  console.log(data);
+                  this.EliminarGrupoAtributo();
+                  this.id = data['id'];
                   break;
                 }
             }
@@ -8226,7 +8398,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-content{\nwidth: 100% !important;\nposition: absolute !important;\n}\n.mostrar{\ndisplay: list-item !important;\nopacity: 1 !important;\nposition: absolute !important;\nbackground-color: #3c29297a !important;\n}\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.text-error{\ncolor: red !important;\nfont-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\nmargin-top: 2rem;\n}\n}\n.icon-circular{\n     width: 29px;\n    height: 29px;\n    border-radius: 50%;\n    background-size: cover;\n    background-position: top center;\n    border: 2px solid;\n    padding: 5px 0px 0px 1px;\n    margin-right:5px;\n}\n@media only screen and (max-width: 10000px) and (min-width: 320px)  {\n\n    /*.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        background-size: cover;\n\n        background-position: top center;\n\n        border-radius: 50%;\n        margin-left: 10px;margin-right: auto;\n        \n    }\n\n    .circular-image {\n\n        width:2%;\n        \n    }*/\n.widthOpcionesGrupoAtributo{\n        width: 2%;\n}\n.idGrupoAtributo{\n        width: 1%;\n}\n.grupoGrupoAtributo{\n        width: 10%;\n}\n.ordenGrupoAtributo{\n        width: 13%;\n}\n.estadoGrupoAtributo{\n        width: 10%;\n}\n.widthOpcionesAtributo{\n        width: 1%;\n}\n.idgrupoAtributodeatributo{\n        width:10%;\n}\n.idAtributo{\n        width: 10%;\n}\n.Atributo{\n        width: 10%;\n}\n.ordenAtributo{\n        width: 10%;\n}\n.estadoAtributo{\n        width: 10%;\n}\n.widthOpcionesGrupoAtributo button,\n    .widthOpcionesAtributo button{\n        font-size: 11px;\n}\n}\n\n\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-content{\nwidth: 100% !important;\nposition: absolute !important;\n}\n.mostrar{\ndisplay: list-item !important;\nopacity: 1 !important;\nposition: absolute !important;\nbackground-color: #3c29297a !important;\n}\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.text-error{\ncolor: red !important;\nfont-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\nmargin-top: 2rem;\n}\n}\n.icon-circular{\n    width: 29px;\n    height: 29px;\n    border-radius: 50%;\n    background-size: cover;\n    background-position: top center;\n    border: 2px solid;\n    padding: 5px 0px 0px 1px;\n    margin-right:5px;\n}\n@media only screen and (max-width: 10000px) and (min-width: 320px)  {\n\n    /*.circular-image img{\n        width: 40px;\n        height: 40px;\n\n        background-size: cover;\n\n        background-position: top center;\n\n        border-radius: 50%;\n        margin-left: 10px;margin-right: auto;\n        \n    }\n\n    .circular-image {\n\n        width:2%;\n        \n    }*/\n.widthOpcionesGrupoAtributo{\n        width: 2%;\n}\n.idGrupoAtributo{\n        width: 1%;\n}\n.grupoGrupoAtributo{\n        width: 10%;\n}\n.ordenGrupoAtributo{\n        width: 13%;\n}\n.estadoGrupoAtributo{\n        width: 10%;\n}\n.widthOpcionesAtributo{\n        width: 1%;\n}\n.idgrupoAtributodeatributo{\n        width:10%;\n}\n.idAtributo{\n        width: 10%;\n}\n.Atributo{\n        width: 10%;\n}\n.ordenAtributo{\n        width: 10%;\n}\n.estadoAtributo{\n        width: 10%;\n}\n.widthOpcionesGrupoAtributo button,\n    .widthOpcionesAtributo button{\n        font-size: 11px;\n}\n}\n\n\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -56086,7 +56258,7 @@ var render = function() {
                               staticStyle: { cursor: "pointer" },
                               on: {
                                 click: function($event) {
-                                  return _vm.abrirFormulario(
+                                  return _vm.abrirFormularioGrupoAtributo(
                                     "grupoatributo",
                                     "atributo",
                                     grupoatributo
@@ -56151,7 +56323,7 @@ var render = function() {
                                       attrs: { type: "button" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.abrirFormulario(
+                                          return _vm.abrirFormularioGrupoAtributo(
                                             "grupoatributo",
                                             "actualizar",
                                             grupoatributo
@@ -56176,7 +56348,7 @@ var render = function() {
                                       attrs: { type: "button" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.abrirFormulario(
+                                          return _vm.abrirFormularioGrupoAtributo(
                                             "grupoatributo",
                                             "eliminar",
                                             grupoatributo
@@ -56201,7 +56373,7 @@ var render = function() {
                                       attrs: { type: "button" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.abrirFormulario(
+                                          return _vm.abrirFormularioGrupoAtributo(
                                             "grupoatributo",
                                             "atributo",
                                             grupoatributo
@@ -56228,223 +56400,11 @@ var render = function() {
                 ])
               ])
             ]
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.listado == 3
-          ? [
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    padding: "0px 0px 18px",
-                    "font-family": "'Rubik', sans-serif"
-                  }
-                },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success button-registrar",
-                      staticStyle: { "border-radius": "0" },
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.mostrarFormularioNuevoGrupoAtributo()
-                        }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa fa-plus",
-                        attrs: { "aria-hidden": "true" }
-                      }),
-                      _vm._v("Nuevo Atributo\n                    ")
-                    ]
-                  ),
-                  _vm._v("      \n                ")
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "card" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c(
-                    "table",
-                    {
-                      staticClass: "table table-striped table-hover  ",
-                      attrs: { id: "myTable" }
-                    },
-                    [
-                      _vm._m(3),
-                      _vm._v(" "),
-                      _c(
-                        "tbody",
-                        _vm._l(_vm.arrayAtributo, function(atributo) {
-                          return _c(
-                            "tr",
-                            {
-                              key: atributo.id,
-                              staticStyle: { cursor: "pointer" }
-                            },
-                            [
-                              _c("td", {
-                                staticClass: "idAtributo",
-                                domProps: { textContent: _vm._s(atributo.id) }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                staticClass: "Atributo",
-                                domProps: {
-                                  textContent: _vm._s(atributo.atributo)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                staticClass: "estadoAtributo",
-                                domProps: {
-                                  textContent: _vm._s(atributo.orden)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                staticClass: "idgrupoAtributodeatributo",
-                                domProps: {
-                                  textContent: _vm._s(
-                                    atributo.gruposatributo_id
-                                  )
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", { staticClass: "estadoAtributo" }, [
-                                atributo.estado
-                                  ? _c("div", [
-                                      _c(
-                                        "span",
-                                        { staticClass: "badge badge-success" },
-                                        [_vm._v("Activo")]
-                                      )
-                                    ])
-                                  : _c("div", [
-                                      _c(
-                                        "span",
-                                        { staticClass: "badge badge-danger" },
-                                        [_vm._v("Desactivado")]
-                                      )
-                                    ])
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "td",
-                                {
-                                  staticClass: "widthOpcionesAtributo",
-                                  staticStyle: { padding: "10px 0px 0px" }
-                                },
-                                [
-                                  _vm._v(
-                                    " \n                                         \n                                        "
-                                  ),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-warning btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.abrirFormulario(
-                                            "grupoatributo",
-                                            "actualizar",
-                                            _vm.grupoatributo
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fas fa-pencil-alt",
-                                        staticStyle: { color: "#fff" }
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    " \n                                        "
-                                  ),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-danger btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.abrirFormulario(
-                                            "grupoatributo",
-                                            "eliminar",
-                                            _vm.grupoatributo
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "fas fa-trash-alt",
-                                        staticStyle: { color: "#fff" }
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(
-                                    " \n                                        \n                                        \n                                    "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "card-header",
-                  staticStyle: {
-                    padding: "0px 0px 18px",
-                    "font-family": "'Rubik', sans-serif"
-                  }
-                },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary button-registrar",
-                      staticStyle: { "border-radius": "0" },
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.volverGrupoAtributo()
-                        }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa fa-arrow-left icon-circular",
-                        attrs: { "aria-hidden": "true" }
-                      }),
-                      _vm._v("Volver\n                    ")
-                    ]
-                  ),
-                  _vm._v("      \n                ")
-                ]
-              )
-            ]
           : _vm.listado == 0
           ? [
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: " card-primary" }, [
-                  _vm._m(4),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-6" }, [
@@ -56566,7 +56526,501 @@ var render = function() {
           ? [
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: " card-primary" }, [
-                  _vm._m(5),
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "form",
+                          {
+                            attrs: {
+                              method: "POST",
+                              enctype: "multipart/form-data"
+                            },
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.EditarGrupoAtributo()
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "grupo" } }, [
+                                _vm._v("grupo")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.grupo,
+                                    expression: "grupo"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: {
+                                  type: "text",
+                                  id: "grupo",
+                                  placeholder: "grupo"
+                                },
+                                domProps: { value: _vm.grupo },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.grupo = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "orden" } }, [
+                                _vm._v("orden")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.orden,
+                                    expression: "orden"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: { type: "number", placeholder: "orden" },
+                                domProps: { value: _vm.orden },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.orden = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c("div", { staticClass: "col-md-12" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    staticStyle: { "border-radius": "0" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.ocultarDetalle()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Cerrar")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary",
+                                    staticStyle: { "border-radius": "0" },
+                                    attrs: { id: "button", type: "submit" }
+                                  },
+                                  [_vm._v("Editar Marca")]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.listado == 3
+          ? [
+              _c(
+                "div",
+                {
+                  staticStyle: {
+                    padding: "0px 0px 18px",
+                    "font-family": "'Rubik', sans-serif"
+                  }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success button-registrar",
+                      staticStyle: { "border-radius": "0" },
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.abrirFormularioAtributo(
+                            "atributo",
+                            "registrar"
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-plus",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v("Nuevo Atributo\n                    ")
+                    ]
+                  ),
+                  _vm._v("      \n                ")
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table table-striped table-hover  ",
+                      attrs: { id: "myTable" }
+                    },
+                    [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.arrayAtributo, function(atributo) {
+                          return _c(
+                            "tr",
+                            {
+                              key: atributo.id,
+                              staticStyle: { cursor: "pointer" }
+                            },
+                            [
+                              _c("td", {
+                                staticClass: "idAtributo",
+                                domProps: { textContent: _vm._s(atributo.id) }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                staticClass: "Atributo",
+                                domProps: {
+                                  textContent: _vm._s(atributo.atributo)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                staticClass: "estadoAtributo",
+                                domProps: {
+                                  textContent: _vm._s(atributo.orden)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                staticClass: "idgrupoAtributodeatributo",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    atributo.gruposatributo_id
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "estadoAtributo" }, [
+                                atributo.estado
+                                  ? _c("div", [
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-success" },
+                                        [_vm._v("Activo")]
+                                      )
+                                    ])
+                                  : _c("div", [
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-danger" },
+                                        [_vm._v("Desactivado")]
+                                      )
+                                    ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                {
+                                  staticClass: "widthOpcionesAtributo",
+                                  staticStyle: { padding: "10px 0px 0px" }
+                                },
+                                [
+                                  _vm._v(
+                                    " \n                                         \n                                        "
+                                  ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-warning btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.abrirFormularioAtributo(
+                                            "atributo",
+                                            "actualizar",
+                                            atributo
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-pencil-alt",
+                                        staticStyle: { color: "#fff" }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    " \n                                        "
+                                  ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.abrirFormularioAtributo(
+                                            "atributo",
+                                            "eliminar",
+                                            atributo
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fas fa-trash-alt",
+                                        staticStyle: { color: "#fff" }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    " \n                                        \n                                        \n                                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "card-header",
+                  staticStyle: {
+                    padding: "0px 0px 18px",
+                    "font-family": "'Rubik', sans-serif"
+                  }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary button-registrar",
+                      staticStyle: { "border-radius": "0" },
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.volverGrupoAtributo()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-arrow-left icon-circular",
+                        attrs: { "aria-hidden": "true" }
+                      }),
+                      _vm._v("Volver\n                    ")
+                    ]
+                  ),
+                  _vm._v("      \n                ")
+                ]
+              )
+            ]
+          : _vm.listado == 4
+          ? [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: " card-primary" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "form",
+                          {
+                            attrs: {
+                              method: "POST",
+                              enctype: "multipart/form-data"
+                            },
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.NuevoFormularioNuevoAtributo()
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "grupo" } }, [
+                                _vm._v("atributo")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.atributo,
+                                    expression: "atributo"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: {
+                                  type: "text",
+                                  id: "grupo",
+                                  placeholder: "grupo"
+                                },
+                                domProps: { value: _vm.atributo },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.atributo = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "orden" } }, [
+                                _vm._v("orden")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.orden,
+                                    expression: "orden"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: { type: "number", placeholder: "orden" },
+                                domProps: { value: _vm.orden },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.orden = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "label",
+                                { attrs: { for: "gruposatributo_id" } },
+                                [_vm._v("Grupo Atributo")]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.gruposatributo_id,
+                                    expression: "gruposatributo_id"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { "border-radius": "0" },
+                                attrs: {
+                                  type: "number",
+                                  placeholder: "orden",
+                                  readonly: ""
+                                },
+                                domProps: { value: _vm.gruposatributo_id },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.gruposatributo_id = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _c("div", { staticClass: "col-md-12" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    staticStyle: { "border-radius": "0" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.CerrarAñadirAtributo()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Cerrar")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary",
+                                    staticStyle: { "border-radius": "0" },
+                                    attrs: { id: "button", type: "submit" }
+                                  },
+                                  [_vm._v("Registrar Atributo")]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]
+          : _vm.listado == 5
+          ? [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: " card-primary" }, [
+                  _vm._m(7),
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-6" }, [
@@ -56735,6 +57189,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Nuevo Grupo Atributo")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Editar Grupo Atributo")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "div",
       {
@@ -56778,7 +57248,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Nuevo Grupo Atributo")])
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Nuevo Atributo")])
     ])
   },
   function() {
